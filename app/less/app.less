@@ -1,0 +1,198 @@
+@import "colorpicker";
+@import "simple-colorpicker";
+@import "common";
+
+@view-padding: 70px;
+@default-icon-size: 20px;
+
+.default-font {
+  font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+  font-size: 14px;
+};
+
+.default-body-background-color {
+  background-color: #220e58;
+}
+
+.default-fa-style(@fontSize: 14px) {
+  .fa {
+    color: #428bca;
+    font-size: @fontSize;
+    .hand-cursor;
+
+    &:hover {
+      color: #285e8e;
+    }
+
+    &.text-icon {
+      font-size: 25px;
+      font-weight: bold;
+    }
+  }
+}
+
+//#0172c8
+//#e91124
+//#de3b01
+//#4e6b90
+//#c99a10
+//#0f9611
+//#c34c2f
+//#0f6eb3
+//#363738
+//#e8b41a
+//#6d3fc6
+
+.scroll-bar-style;
+
+html {
+  overflow: auto;
+}
+
+body {
+  .default-font;
+  color: #868c92;
+  .default-body-background-color;
+  -webkit-print-color-adjust: exact;
+}
+
+.main-view {
+  .full-height;
+}
+
+.notes {
+  margin: @view-padding;
+}
+
+.gridster {
+  .gs-w, .gs_w {
+    background-color: whitesmoke;
+    list-style: none;
+    .hand-cursor;
+  }
+}
+
+h4 {
+  margin: 0 0 10px 0;
+}
+
+.attention-text {
+  font-weight: bold;
+  color: orange;
+}
+
+.sidebar-menu {
+  position: fixed;
+  left: 5px;
+  top: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 50px;
+  text-align: center;
+  opacity: 0.2;
+  background-color: white;
+  .rounded-corners(5px);
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .default-fa-style(40px);
+
+  .fa-cog {
+    padding-bottom: 10px;
+  }
+}
+
+.notes {
+  color: black;
+
+  .title {
+    padding: 0 5px;
+    .full-width;
+    .overflow-hidden;
+    background-color: lightgray;
+    min-height: 25px;
+    cursor: move;
+  }
+
+  .content {
+    margin: 10px 10px;
+    overflow: hidden;
+    width: calc(~'100% - 20px');
+    height: calc(~'100% - 45px');
+    .overflow-hidden;
+    .no-outline;
+    cursor: text;
+    font-size: 18px;
+
+    .not-editable {
+      cursor: default;
+    }
+
+    hr {
+      border-top: solid 1px darkgray;
+    }
+
+    blockquote {
+      border-left: 5px solid darkgray;
+    }
+  }
+
+  .default-fa-style(@default-icon-size);
+  .icons {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    width: 50px;
+    text-align: right;
+
+    .fa-times {
+      color: #ff0000;
+      opacity: 0.4;
+      
+      &:hover {
+        opacity: 1;
+      }
+    }
+    .fa-pencil {
+      padding-left: 13px;
+    }
+  }
+}
+
+.delete-note {
+  width: 162px;
+}
+
+.editor-toolbar {
+  width: 611px;
+  letter-spacing: 5px;
+  
+  .colorpicker-wrap {
+    width: 20px;
+    .inline-block;
+  }
+
+  .colorpicker-trigger {
+    border: none;
+  }
+}
+
+.popover-title {
+  display: none;
+}
+.popover {
+  max-width: 1000px !important;
+}
+
+.textAngular-toolbar {
+  .fa, .textAngular-toolbar-item {
+    font-size: @default-icon-size !important;
+
+    &:hover {
+      background-color: #609dd6 !important;
+    }
+  }
+}
