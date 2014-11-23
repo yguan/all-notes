@@ -18,5 +18,7 @@ require(['data/app-data-loader', 'view/all-views'], function (loader, views) {
         success: views.init,
         failure: views.init
     });
+
+    require(['lib/auto-suggest-words']);
 })
 ;

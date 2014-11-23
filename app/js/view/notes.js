@@ -76,6 +76,6 @@ define(function (require, exports, module) {
             }, 300);
         };
 
-        new AutoSuggestControl($('#note-content')[0]);
+        new AutoSuggest($('#note-content')[0]);
     };
 });
