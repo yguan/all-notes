@@ -109,6 +109,7 @@
     function getSuggestion(text) {
         var allWords = getAllWords(),
             word,
+            commonStrIndex,
             textLowerCase = text.toLocaleLowerCase();
 
         if (text.length > 0) {
@@ -119,18 +120,17 @@
                     if (word.indexOf(text) == 0) {
                         return word;
                     }
-                    else if (word.indexOf(toTitleCase(text)) == 0) {
-                        return toTitleCase(word);
+                    
+                    if (text.length > 1 && text.toUpperCase() === text) {
+                        return word.toUpperCase();
                     }
+                    
+                    return text + word.substr(text.length, word.length - text.length);
                 }
             }
         }
 
         return null;
-    }
-
-    function toTitleCase(text) {
-        return text.charAt(0).toLowerCase() + text.slice(1);
     }
 
     function getAllWords() {
