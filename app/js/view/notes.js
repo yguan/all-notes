@@ -75,5 +75,7 @@ define(function (require, exports, module) {
 //                $scope.editNote(note);
             }, 300);
         };
+
+        new AutoSuggestControl($('#note-content')[0]);
     };
 });

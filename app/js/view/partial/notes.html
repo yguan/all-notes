@@ -12,7 +12,8 @@
     <div class="notes">
         <textedit afterTextEditHandler="updateNote()"></textedit>
         <div class="title" contenteditable="true">{{note.title}}</div>
-        <div class="content"
+        <div id="note-content"
+             class="content"
              contenteditable="true"
              ng-model="note.content"
              strip-br="true"
