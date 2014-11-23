@@ -26,12 +26,12 @@ define(function (require, exports, module) {
             var noteApp = angular.module('note', [
                 'ngRoute',
                 'ngSanitize',
-                'angular-gridster',
                 '$strap.directives',
                 'angularFileUpload',
                 'styling',
                 'contenteditable',
-                'colorpicker.module'
+                'colorpicker.module',
+                'angular-textedit'
             ]);
 
             configViewRouting(noteApp);

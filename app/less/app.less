@@ -4,6 +4,7 @@
 
 @view-padding: 70px;
 @default-icon-size: 20px;
+@sidebar-width: 70;
 
 .default-font {
   font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
@@ -54,14 +55,20 @@ body {
   color: #868c92;
   .default-body-background-color;
   -webkit-print-color-adjust: exact;
+  height: 100%;
 }
 
-.main-view {
+html,
+body,
+.viewport,
+.main-view,
+.notes {
   .full-height;
 }
 
 .notes {
-  margin: @view-padding;
+  margin-left: ~'@{sidebar-width}px';
+  width: calc(~'100% - @{sidebar-width}px');
 }
 
 .gridster {
@@ -90,13 +97,8 @@ h4 {
   padding: 0;
   width: 50px;
   text-align: center;
-  opacity: 0.2;
   background-color: white;
   .rounded-corners(5px);
-
-  &:hover {
-    opacity: 1;
-  }
 
   .default-fa-style(40px);
 
@@ -168,7 +170,8 @@ h4 {
 
 .editor-toolbar {
   width: 611px;
-  letter-spacing: 5px;
+  letter-spacing: 10px;
+  font-size: 25px;
   
   .colorpicker-wrap {
     width: 20px;

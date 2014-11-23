@@ -3,7 +3,6 @@ module.exports = {
         src: [
             '<%= folder.src %>/less/css/bootstrap-min.css',
             '<%= folder.src %>/less/css/bootstrap-tagsinput-min.css',
-            '<%= folder.src %>/less/css/jquery-gridster-min.css',
             '<%= folder.src %>/less/css/font-awesome-min.css',
             '<%= folder.src %>/css/app.css'
         ],
@@ -13,7 +12,6 @@ module.exports = {
         src: [
             '<%= folder.src %>/less/css/bootstrap-min.css',
             '<%= folder.src %>/less/css/bootstrap-tagsinput-min.css',
-            '<%= folder.src %>/less/css/jquery-gridster-min.css',
             '<%= folder.src %>/less/css/font-awesome-min.css',
             '<%= folder.buildTemp %>/app.css'
         ],
@@ -31,10 +29,9 @@ module.exports = {
             '<%= folder.src %>/js/lib/angular/angular-mobile.js',
             '<%= folder.src %>/js/lib/angular/bootstrap.js',
             '<%= folder.src %>/js/lib/angular/angular-strap.js',
-            '<%= folder.src %>/js/lib/angular/jquery.gridster.js',
-            '<%= folder.src %>/js/lib/angular/angular-gridster.js',
             '<%= folder.src %>/js/lib/angular/angular-contenteditable.js',
             '<%= folder.src %>/js/lib/angular/angular-file-upload.js',
+            '<%= folder.src %>/js/lib/angular/angular-text-edit.js',
             '<%= folder.src %>/js/lib/angular/styling.js',
             '<%= folder.src %>/js/lib/angular/bootstrap-colorpicker.js',
             '<%= folder.src %>/js/lib/angular/jquery.colorpicker.js'

@@ -271,13 +271,19 @@ body {
   color: #868c92;
   background-color: #220e58;
   -webkit-print-color-adjust: exact;
+  height: 100%;
 }
-.main-view {
+html,
+body,
+.viewport,
+.main-view,
+.notes {
   height: 100%;
   min-height: 100%;
 }
 .notes {
-  margin: 70px;
+  margin-left: 70px;
+  width: calc(100% - 70px);
 }
 .gridster .gs-w,
 .gridster .gs_w {
@@ -301,14 +307,10 @@ h4 {
   padding: 0;
   width: 50px;
   text-align: center;
-  opacity: 0.2;
   background-color: white;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-}
-.sidebar-menu:hover {
-  opacity: 1;
 }
 .sidebar-menu .fa {
   color: #428bca;
@@ -343,7 +345,7 @@ h4 {
   overflow: hidden;
   outline: none;
   cursor: text;
-  font-size: 16px;
+  font-size: 18px;
 }
 .notes .content .not-editable {
   cursor: default;
@@ -389,6 +391,7 @@ h4 {
 .editor-toolbar {
   width: 611px;
   letter-spacing: 5px;
+  font-size: 20px;
 }
 .editor-toolbar .colorpicker-wrap {
   width: 20px;

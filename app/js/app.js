@@ -11,7 +11,7 @@ require.config({
     }
 });
 
-require(['data/app-data-loader', 'view/all-views', 'lib/text-format'], function (loader, views) {
+require(['data/app-data-loader', 'view/all-views'], function (loader, views) {
     'use strict';
 
     loader.init({

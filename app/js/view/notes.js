@@ -4,49 +4,13 @@
 define(function (require, exports, module) {
     'use strict';
 
-    var gridsterSizeCalculator = require('view/gridster-size-calculator'),
-        noteRepo = require('data/note-repository'),
-        editNoteCtrl = require('view/edit-note'),
+    var noteRepo = require('data/note-repository'),
         genericHandlers = require('view/generic-handlers'),
-        theme = require('view/theme'),
-        textFormat = require('lib/text-format');
+        theme = require('view/theme');
 
     exports.name = 'NotesCtrl';
 
     exports.controller = function ($scope, $location, $document, $timeout, $modal, $sce) {
-        var gridsterSize = gridsterSizeCalculator.getSizeInfo({
-            container: '.notes',
-            widgetMinWidth: 140,
-            widgetMinHeight: 140,
-            padding: 5
-        });
-
-        $scope.notes = [];
-
-        function getDefaultGridsterItemOptions() {
-            return {row: 1, col: 1, size_x: 2, size_y: 2};
-        }
-
-        function getDefaultNote() {
-            return {
-                title: '',
-                content: ' ',
-                lock: false,
-                dateCreated: new Date(),
-                gridsterOptions: getDefaultGridsterItemOptions()
-            };
-        }
-
-        function saveLayout(notes, gridsterWidgetOptions) {
-            var index = 0;
-            _.each(notes, function (note) {
-                if (!note.remove) {
-                    angular.extend(note.gridsterOptions, gridsterWidgetOptions[index]);
-                    index = index + 1;
-                }
-            });
-            noteRepo.updateAll(notes, {success: genericHandlers.noop, failure: genericHandlers.error});
-        }
 
         function getNotes() {
             noteRepo.getAll({
@@ -62,44 +26,10 @@ define(function (require, exports, module) {
             });
         }
 
-        getNotes();
+        //getNotes();
 
         $scope.isAddingNote = false;
 
-        $scope.addNote = function () {
-            if ($scope.isAddingNote) {
-                return;
-            }
-            noteRepo.add(getDefaultNote(), {
-                success: function (note) {
-                    $scope.notes.push(note);
-                    $scope.$apply();
-                    $scope.isAddingNote = false;
-
-                    $scope.editNote(note);
-                },
-                failure: function (error) {
-                    genericHandlers.error(error);
-                    $scope.isAddingNote = false;
-                }
-            });
-            $scope.isAddingNote = true;
-        };
-
-        $scope.gridster = {
-            options: {
-                widget_margins: [5, 5],
-                widget_base_dimensions: [gridsterSize.widgetMinWidth, gridsterSize.widgetMinHeight],
-                min_cols: gridsterSize.maxColumns
-            }
-        };
-        $scope.gridsterWidgetOptions = [];
-
-        $scope.$watch('gridsterWidgetOptions', function (newVal, oldVal) {
-            if (newVal.length > 0) {
-                saveLayout($scope.notes, newVal);
-            }
-        });
 
         $scope.bgColor = '';
 
@@ -140,30 +70,9 @@ define(function (require, exports, module) {
             }
         };
 
-        $scope.showToolbar = function ($event) {
-
-            $timeout(function () {
-                $($event.target).parent().find('.text-color-picker').colorpicker({
-                    size: 20,
-                    hide: false,
-                    onSelectColor: function (color) {
-                        textFormat.execDocumentCmd('foreColor', color);
-                    }
-                });
-
-                $($event.target).parent().find('.editor-toolbar').click(function (e) {
-                    textFormat.execDocumentCmdWithAttr(e);
-                });
-            }, 100);
-        };
-
-        $scope.preventDefault = function ($event) {
-            $event.preventDefault();
-        }
-
         $scope.updateNote = function (note) {
             $timeout(function () {
-                $scope.editNote(note);
+//                $scope.editNote(note);
             }, 300);
         };
     };
