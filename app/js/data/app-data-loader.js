@@ -18,7 +18,7 @@ define(function (require, exports, module) {
                         if (!theme) {
                             themeRepo.create({
                                 id: 1,
-                                bgColor: '#220e58'
+                                bgColor: '#F5F5F5'
                             }, op);
                         } else {
                             op.success();

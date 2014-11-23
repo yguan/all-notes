@@ -251,7 +251,7 @@
   font-size: 14px;
 }
 .default-body-background-color {
-  background-color: #220e58;
+  background-color: #f5f5f5;
 }
 ::-webkit-scrollbar {
   width: 16px;
@@ -269,27 +269,22 @@ body {
   font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
   font-size: 14px;
   color: #868c92;
-  background-color: #220e58;
+  background-color: #f5f5f5;
   -webkit-print-color-adjust: exact;
   height: 100%;
 }
 html,
 body,
-.viewport,
-.main-view,
-.notes {
+.viewport {
   height: 100%;
   min-height: 100%;
 }
-.notes {
-  margin-left: 70px;
-  width: calc(100% - 70px);
+.main-view {
+  padding: 10px 0;
 }
-.gridster .gs-w,
-.gridster .gs_w {
-  background-color: whitesmoke;
-  list-style: none;
-  cursor: pointer;
+.main-view,
+.notes {
+  height: calc(100% - 10px);
 }
 h4 {
   margin: 0 0 10px 0;
@@ -329,19 +324,20 @@ h4 {
 }
 .notes {
   color: black;
+  margin-left: 70px;
+  width: calc(100% - 80px);
 }
 .notes .title {
-  padding: 0 5px;
+  margin: 10px 0;
+  background-color: white;
   width: 100%;
-  overflow: hidden;
-  background-color: lightgray;
-  min-height: 25px;
-  cursor: move;
+  height: 30px;
+  font-size: 20px;
+  font-weight: bold;
 }
 .notes .content {
-  margin: 10px 10px;
-  width: calc(100% - 20px);
-  height: calc(100% - 45px);
+  background-color: white;
+  height: calc(100% - 80px);
   overflow: hidden;
   outline: none;
   cursor: text;
@@ -389,9 +385,11 @@ h4 {
   width: 162px;
 }
 .editor-toolbar {
-  width: 611px;
-  letter-spacing: 5px;
-  font-size: 20px;
+  padding: 5px;
+  background-color: white;
+  width: 100%;
+  letter-spacing: 15px;
+  font-size: 25px;
 }
 .editor-toolbar .colorpicker-wrap {
   width: 20px;
@@ -405,12 +403,4 @@ h4 {
 }
 .popover {
   max-width: 1000px !important;
-}
-.textAngular-toolbar .fa,
-.textAngular-toolbar .textAngular-toolbar-item {
-  font-size: 20px !important;
-}
-.textAngular-toolbar .fa:hover,
-.textAngular-toolbar .textAngular-toolbar-item:hover {
-  background-color: #609dd6 !important;
 }

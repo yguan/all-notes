@@ -2,9 +2,11 @@
 @import "simple-colorpicker";
 @import "common";
 
+@view-padding-top: 10;
 @view-padding: 70px;
 @default-icon-size: 20px;
 @sidebar-width: 70;
+@note-padding: @sidebar-width + 10;
 
 .default-font {
   font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
@@ -12,7 +14,7 @@
 };
 
 .default-body-background-color {
-  background-color: #220e58;
+  background-color: #f5f5f5;
 }
 
 .default-fa-style(@fontSize: 14px) {
@@ -60,23 +62,17 @@ body {
 
 html,
 body,
-.viewport,
-.main-view,
-.notes {
+.viewport{
   .full-height;
 }
 
-.notes {
-  margin-left: ~'@{sidebar-width}px';
-  width: calc(~'100% - @{sidebar-width}px');
+.main-view {
+  padding: ~'@{view-padding-top}px' 0;
 }
 
-.gridster {
-  .gs-w, .gs_w {
-    background-color: whitesmoke;
-    list-style: none;
-    .hand-cursor;
-  }
+.main-view,
+.notes {
+  height: calc(~'100% - @{view-padding-top}px');
 }
 
 h4 {
@@ -109,21 +105,22 @@ h4 {
 
 .notes {
   color: black;
+  margin-left: ~'@{sidebar-width}px';
+  width: calc(~'100% - @{note-padding}px');
 
   .title {
-    padding: 0 5px;
+    margin: 10px 0;
+    .white-background;
     .full-width;
-    .overflow-hidden;
-    background-color: lightgray;
-    min-height: 25px;
-    cursor: move;
+    height: 30px;
+    font-size: 20px;
+    font-weight: bold;
   }
 
   .content {
-    margin: 10px 10px;
+    .white-background;
     overflow: hidden;
-    width: calc(~'100% - 20px');
-    height: calc(~'100% - 45px');
+    height: calc(~'100% - 80px');
     .overflow-hidden;
     .no-outline;
     cursor: text;
@@ -169,8 +166,10 @@ h4 {
 }
 
 .editor-toolbar {
-  width: 611px;
-  letter-spacing: 10px;
+  padding: 5px;
+  .white-background;
+  .full-width;
+  letter-spacing: 15px;
   font-size: 25px;
   
   .colorpicker-wrap {
@@ -188,14 +187,4 @@ h4 {
 }
 .popover {
   max-width: 1000px !important;
-}
-
-.textAngular-toolbar {
-  .fa, .textAngular-toolbar-item {
-    font-size: @default-icon-size !important;
-
-    &:hover {
-      background-color: #609dd6 !important;
-    }
-  }
 }
