@@ -93,23 +93,27 @@ define(function (require, exports, module) {
             return $sce.trustAsHtml(content);
         };
 
-        $scope.setNoteToDelete = function (note, $event) {
-            $($event.target).closest('.player-revert').removeClass('player-revert');
-            $($event.target).parents('.gs-w').addClass('player-revert');
-            $scope.noteToDelete = note;
+        $scope.setCurrentNodeToDelete = function () {
+            $scope.noteToDelete = $scope.note;
         };
 
         $scope.popover = {
-            note: null,
             deleteNote: function (dismiss) {
-                $scope.noteToDelete.remove = true;
+                if ($scope.noteToDelete === $scope.note) {
+                    $scope.note.title = '';
+                    $scope.note.content = '';
+                    updateNote($scope.note);
+                    dismiss();
+                } else {
+                    $scope.noteToDelete.remove = true;
 
-                noteRepo.remove($scope.noteToDelete.id, {
-                    success: function () {
-                        dismiss();
-                    },
-                    failure: genericHandlers.error
-                });
+                    noteRepo.remove($scope.noteToDelete.id, {
+                        success: function () {
+                            dismiss();
+                        },
+                        failure: genericHandlers.error
+                    });
+                }
             }
         };
 
