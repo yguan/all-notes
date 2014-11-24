@@ -150,30 +150,5 @@ define(function (require, exports, module) {
         $scope.getTags = function () {
             return tagGroupRepo.getAllTags();
         };
-
-        $scope.save = function () {
-            $scope.isSaving = true;
-
-            var tags = _.map($scope.selectedTags, function (str) {
-                return str.toLowerCase();
-            });
-            tagGroupRepo.add(tags, {
-                success: function (tagGroup) {
-                    bookmarkRepo.add({
-                        title: $scope.title,
-                        url: $scope.url,
-                        dateAdded: new Date(),
-                        tagGroupId: tagGroup.id
-                    }, {
-                        success: function () {
-                            window.close();
-                        },
-                        failure: function (results) {
-                            console.log(results);
-                        }
-                    });
-                }
-            })
-        };
     };
 });

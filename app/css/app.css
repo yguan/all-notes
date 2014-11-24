@@ -415,4 +415,5 @@ h4 {
 }
 .tag.label {
   padding: .2em .6em;
+  font-weight: normal;
 }
