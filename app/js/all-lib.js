@@ -6635,7 +6635,7 @@ _.mixin({
             suggestion = getSuggestion(splitWords.wordBeforeCursor),
             wordsWithSuggestion;
 
-        if (suggestion) {
+        if (suggestion && suggestion !== splitWords.wordBeforeCursor) {
             wordsWithSuggestion = splitWords.textBeforeCursorAndLastWordSeparator + suggestion
             element.textContent = wordsWithSuggestion + splitWords.textAfterCursor;
             var start = splitWords.textBeforeCursor.length;

@@ -16,6 +16,8 @@
              class="content"
              contenteditable="true"
              ng-model="note.content"
+             strip-br="true"
+             select-non-editable="true"
              ng-keyup="editNote($event)">
         </div>
     </div>
