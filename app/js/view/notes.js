@@ -44,6 +44,11 @@ define(function (require, exports, module) {
             $scope.isAddingNote = true;
         }
 
+        function isLetterKey(event) {
+            var keyCode = event.keyCode;
+            return keyCode >= 65 && keyCode <= 90 && !event.ctrlKey && !event.shiftKey;
+        }
+
         $scope.note = {};
 
         getNote();
@@ -63,16 +68,25 @@ define(function (require, exports, module) {
                 dateCreated: new Date()
             };
         }
+
+        function updateNote(note) {
+            $timeout(function () {
+                note.dateModified = new Date();
+                noteRepo.update(note, {succes: genericHandlers.noop, failure: genericHandlers.error});
+            }, 300);
+        }
+
         $scope.addNote = addNote;
 
+        $scope.updateTitle = function () {
+            updateNote($scope.note);
+        };
+
         $scope.editNote = function ($event) {
-            $timeout(function () {
-                if ($event) {
-                    $scope.note.content = $event.target.textContent;
-                }
-                $scope.note.dateModified = new Date();
-                noteRepo.update($scope.note, {succes: genericHandlers.noop, failure: genericHandlers.error});
-            }, 300);
+            if (isLetterKey($event)) {
+                $scope.note.content = $event.target.textContent;
+            }
+            updateNote($scope.note);
         };
 
         $scope.trustAsHtml = function (content) {
@@ -99,7 +113,7 @@ define(function (require, exports, module) {
             }
         };
 
-        $scope.updateNote = function () {
+        $scope.formatNote = function () {
             $timeout(function () {
                 $scope.editNote();
             }, 300);

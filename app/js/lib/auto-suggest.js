@@ -21,7 +21,7 @@
         var keyCode = event.keyCode,
             element = event.target;
 
-        if (keyCode >= 65 && keyCode <= 90) { // a-z and A-Z
+        if (keyCode >= 65 && keyCode <= 90 && !event.ctrlKey && !event.shiftKey) { // a-z and A-Z
             typeAhead(element);
         }
     }

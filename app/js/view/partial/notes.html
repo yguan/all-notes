@@ -10,8 +10,12 @@
         </span>
     </div>
     <div class="notes">
-        <textedit afterTextEditHandler="updateNote()"></textedit>
-        <div class="title" contenteditable="true">{{note.title}}</div>
+        <textedit afterTextEditHandler="formatNote()"></textedit>
+        <div class="title"
+             contenteditable="true"
+             ng-model="note.title"
+             ng-keyup="updateTitle()">
+        </div>
         <div id="note-content"
              class="content"
              contenteditable="true"
