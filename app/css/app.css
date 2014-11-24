@@ -327,6 +327,9 @@ h4 {
   margin-left: 70px;
   width: calc(100% - 80px);
 }
+.notes .bootstrap-tagsinput {
+  width: 100%;
+}
 .notes .title {
   margin: 10px 0;
   padding: 0 5px;
@@ -405,4 +408,11 @@ h4 {
 }
 .popover {
   max-width: 1000px !important;
+}
+.tag-default {
+  background-color: #3a87ad;
+  font-size: 14px;
+}
+.tag.label {
+  padding: .2em .6em;
 }

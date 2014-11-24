@@ -5,7 +5,8 @@ define(function (require, exports, module) {
     'use strict';
 
     var notes = require('view/notes'),
-        theme = require('view/theme');
+        theme = require('view/theme'),
+        isInitialized = false;
 
     function registerController(app, controller) {
         app.controller(controller.name, ['$scope', '$location', '$document', '$timeout', '$modal', '$sce', controller.controller]);
@@ -20,9 +21,9 @@ define(function (require, exports, module) {
     }
 
     exports.init = function () {
-        theme.init();
+        if (!isInitialized) {
+            theme.init();
 
-        angular.element(document).ready(function () {
             var noteApp = angular.module('note', [
                 'ngRoute',
                 'ngSanitize',
@@ -31,13 +32,15 @@ define(function (require, exports, module) {
                 'styling',
                 'contenteditable',
                 'colorpicker.module',
-                'angular-textedit'
+                'angular-textedit',
+                'bootstrap-tagsinput'
             ]);
 
             configViewRouting(noteApp);
             registerController(noteApp, notes);
             angular.bootstrap(document, ['note']);
-        });
+            isInitialized = true;
+        }
     };
 
 });

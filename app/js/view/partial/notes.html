@@ -18,6 +18,12 @@
              ng-model="note.title"
              ng-keyup="updateTitle()">
         </div>
+        <bootstrap-tagsinput
+                ng-model="selectedTags"
+                typeahead-source="getTags"
+                tagclass="label tag-default"
+                focus=true>
+        </bootstrap-tagsinput>
         <div id="note-content"
              class="content"
              contenteditable="true"

@@ -29914,6 +29914,908 @@ makeSwipeDirective('ngSwipeRight', 1);
   })
 
 }(window.jQuery);
+/* =============================================================
+ * bootstrap3-typeahead.js v3.0.3
+ * https://github.com/bassjobsen/Bootstrap-3-Typeahead
+ * =============================================================
+ * Original written by @mdo and @fat
+ * =============================================================
+ * Copyright 2014 Bass Jobsen @bassjobsen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ============================================================ */
+
+
+!function($){
+
+  "use strict";
+  // jshint laxcomma: true
+
+
+ /* TYPEAHEAD PUBLIC CLASS DEFINITION
+  * ================================= */
+
+  var Typeahead = function (element, options) {
+    this.$element = $(element);
+    this.options = $.extend({}, $.fn.typeahead.defaults, options);
+    this.matcher = this.options.matcher || this.matcher;
+    this.sorter = this.options.sorter || this.sorter;
+    this.select = this.options.select || this.select;
+    this.autoSelect = typeof this.options.autoSelect == 'boolean' ? this.options.autoSelect : true;
+    this.highlighter = this.options.highlighter || this.highlighter;
+    this.updater = this.options.updater || this.updater;
+    this.source = this.options.source;
+    this.delay = typeof this.options.delay == 'number' ? this.options.delay : 250;
+    this.$menu = $(this.options.menu);
+    this.shown = false;
+    this.listen();
+    this.showHintOnFocus = typeof this.options.showHintOnFocus == 'boolean' ? this.options.showHintOnFocus : false;
+  };
+
+  Typeahead.prototype = {
+
+    constructor: Typeahead
+
+  , select: function () {
+      var val = this.$menu.find('.active').data('value');
+      if(this.autoSelect || val) {
+        this.$element
+          .val(this.updater(val))
+          .change();
+      }
+      return this.hide();
+    }
+
+  , updater: function (item) {
+      return item;
+    }
+
+  , setSource: function (source) {
+      this.source = source;
+    }
+
+  , show: function () {
+      var pos = $.extend({}, this.$element.position(), {
+        height: this.$element[0].offsetHeight
+      }), scrollHeight;
+
+      scrollHeight = typeof this.options.scrollHeight == 'function' ?
+          this.options.scrollHeight.call() :
+          this.options.scrollHeight;
+
+      this.$menu
+        .insertAfter(this.$element)
+        .css({
+          top: pos.top + pos.height + scrollHeight
+        , left: pos.left
+        })
+        .show();
+
+      this.shown = true;
+      return this;
+    }
+
+  , hide: function () {
+      this.$menu.hide();
+      this.shown = false;
+      return this;
+    }
+
+  , lookup: function (query) {
+      var items;
+      if (typeof(query) != 'undefined' && query !== null) {
+        this.query = query;
+      } else {
+        this.query = this.$element.val() ||  '';
+      }
+
+      if (this.query.length < this.options.minLength) {
+        return this.shown ? this.hide() : this;
+      }
+
+      var worker = $.proxy(function() {
+        items = $.isFunction(this.source) ? this.source(this.query, $.proxy(this.process, this)) : this.source;
+        if (items) {
+          this.process(items);
+        }
+      }, this)
+
+      clearTimeout(this.lookupWorker)
+      this.lookupWorker = setTimeout(worker, this.delay)
+    }
+
+  , process: function (items) {
+      var that = this;
+
+      items = $.grep(items, function (item) {
+        return that.matcher(item);
+      });
+
+      items = this.sorter(items);
+
+      if (!items.length) {
+        return this.shown ? this.hide() : this;
+      }
+
+      if (this.options.items == 'all') {
+        return this.render(items).show();
+      } else {
+        return this.render(items.slice(0, this.options.items)).show();
+      }
+    }
+
+  , matcher: function (item) {
+      return ~item.toLowerCase().indexOf(this.query.toLowerCase());
+    }
+
+  , sorter: function (items) {
+      var beginswith = []
+        , caseSensitive = []
+        , caseInsensitive = []
+        , item;
+
+      while ((item = items.shift())) {
+        if (!item.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item);
+        else if (~item.indexOf(this.query)) caseSensitive.push(item);
+        else caseInsensitive.push(item);
+      }
+
+      return beginswith.concat(caseSensitive, caseInsensitive);
+    }
+
+  , highlighter: function (item) {
+      var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&');
+      return item.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
+        return '<strong>' + match + '</strong>';
+      });
+    }
+
+  , render: function (items) {
+      var that = this;
+
+      items = $(items).map(function (i, item) {
+        i = $(that.options.item).data('value', item);
+        i.find('a').html(that.highlighter(item));
+        return i[0];
+      });
+
+      if (this.autoSelect) {
+        items.first().addClass('active');
+      }
+      this.$menu.html(items);
+      return this;
+    }
+
+  , next: function (event) {
+      var active = this.$menu.find('.active').removeClass('active')
+        , next = active.next();
+
+      if (!next.length) {
+        next = $(this.$menu.find('li')[0]);
+      }
+
+      next.addClass('active');
+    }
+
+  , prev: function (event) {
+      var active = this.$menu.find('.active').removeClass('active')
+        , prev = active.prev();
+
+      if (!prev.length) {
+        prev = this.$menu.find('li').last();
+      }
+
+      prev.addClass('active');
+    }
+
+  , listen: function () {
+      this.$element
+        .on('focus',    $.proxy(this.focus, this))
+        .on('blur',     $.proxy(this.blur, this))
+        .on('keypress', $.proxy(this.keypress, this))
+        .on('keyup',    $.proxy(this.keyup, this));
+
+      if (this.eventSupported('keydown')) {
+        this.$element.on('keydown', $.proxy(this.keydown, this));
+      }
+
+      this.$menu
+        .on('click', $.proxy(this.click, this))
+        .on('mouseenter', 'li', $.proxy(this.mouseenter, this))
+        .on('mouseleave', 'li', $.proxy(this.mouseleave, this));
+    }
+  , destroy : function () {
+      this.$element.data('typeahead',null);
+      this.$element
+        .off('focus')
+        .off('blur')
+        .off('keypress')
+        .off('keyup');
+
+      if (this.eventSupported('keydown')) {
+        this.$element.off('keydown');
+      }
+
+      this.$menu.remove();
+    }
+  , eventSupported: function(eventName) {
+      var isSupported = eventName in this.$element;
+      if (!isSupported) {
+        this.$element.setAttribute(eventName, 'return;');
+        isSupported = typeof this.$element[eventName] === 'function';
+      }
+      return isSupported;
+    }
+
+  , move: function (e) {
+      if (!this.shown) return;
+
+      switch(e.keyCode) {
+        case 9: // tab
+        case 13: // enter
+        case 27: // escape
+          e.preventDefault();
+          break;
+
+        case 38: // up arrow
+          e.preventDefault();
+          this.prev();
+          break;
+
+        case 40: // down arrow
+          e.preventDefault();
+          this.next();
+          break;
+      }
+
+      e.stopPropagation();
+    }
+
+  , keydown: function (e) {
+      this.suppressKeyPressRepeat = ~$.inArray(e.keyCode, [40,38,9,13,27]);
+      if (!this.shown && e.keyCode == 40) {
+        this.lookup("");
+      } else {
+        this.move(e);
+      }
+    }
+
+  , keypress: function (e) {
+      if (this.suppressKeyPressRepeat) return;
+      this.move(e);
+    }
+
+  , keyup: function (e) {
+      switch(e.keyCode) {
+        case 40: // down arrow
+        case 38: // up arrow
+        case 16: // shift
+        case 17: // ctrl
+        case 18: // alt
+          break;
+
+        case 9: // tab
+        case 13: // enter
+          if (!this.shown) return;
+          this.select();
+          break;
+
+        case 27: // escape
+          if (!this.shown) return;
+          this.hide();
+          break;
+        default:
+          this.lookup();
+      }
+
+      e.stopPropagation();
+      e.preventDefault();
+  }
+
+  , focus: function (e) {
+      if (!this.focused) {
+        this.focused = true;
+        if (this.options.minLength === 0 && !this.$element.val() || this.options.showHintOnFocus) {
+          this.lookup();
+        }
+      }
+    }
+
+  , blur: function (e) {
+      this.focused = false;
+      if (!this.mousedover && this.shown) this.hide();
+    }
+
+  , click: function (e) {
+      e.stopPropagation();
+      e.preventDefault();
+      this.select();
+      this.$element.focus();
+    }
+
+  , mouseenter: function (e) {
+      this.mousedover = true;
+      this.$menu.find('.active').removeClass('active');
+      $(e.currentTarget).addClass('active');
+    }
+
+  , mouseleave: function (e) {
+      this.mousedover = false;
+      if (!this.focused && this.shown) this.hide();
+    }
+
+  };
+
+
+  /* TYPEAHEAD PLUGIN DEFINITION
+   * =========================== */
+
+  var old = $.fn.typeahead;
+
+  $.fn.typeahead = function (option) {
+	var arg = arguments;
+    return this.each(function () {
+      var $this = $(this)
+        , data = $this.data('typeahead')
+        , options = typeof option == 'object' && option;
+      if (!data) $this.data('typeahead', (data = new Typeahead(this, options)));
+      if (typeof option == 'string') {
+        if (arg.length > 1) {
+          data[option].apply(data, Array.prototype.slice.call(arg ,1));
+        } else {
+          data[option]();
+        }
+      }
+    });
+  };
+
+  $.fn.typeahead.defaults = {
+    source: []
+  , items: 8
+  , menu: '<ul class="typeahead dropdown-menu"></ul>'
+  , item: '<li><a href="#"></a></li>'
+  , minLength: 1
+  , scrollHeight: 0
+  , autoSelect: true
+  };
+
+  $.fn.typeahead.Constructor = Typeahead;
+
+
+ /* TYPEAHEAD NO CONFLICT
+  * =================== */
+
+  $.fn.typeahead.noConflict = function () {
+    $.fn.typeahead = old;
+    return this;
+  };
+
+
+ /* TYPEAHEAD DATA-API
+  * ================== */
+
+  $(document).on('focus.typeahead.data-api', '[data-provide="typeahead"]', function (e) {
+    var $this = $(this);
+    if ($this.data('typeahead')) return;
+    $this.typeahead($this.data());
+  });
+
+}(window.jQuery);
+
+(function ($) {
+  "use strict";
+
+  var defaultOptions = {
+    tagClass: function(item) {
+      return 'label label-info';
+    },
+    itemValue: function(item) {
+      return item ? item.toString() : item;
+    },
+    itemText: function(item) {
+      return this.itemValue(item);
+    },
+    freeInput : true
+  };
+
+  function TagsInput(element, options) {
+    this.itemsArray = [];
+
+    this.$element = $(element);
+    this.$element.hide();
+
+    this.isSelect = (element.tagName === 'SELECT');
+    this.multiple = (this.isSelect && element.hasAttribute('multiple'));
+    this.objectItems = options && options.itemValue;
+
+    this.$container = $('<div class="bootstrap-tagsinput"></div>');
+    this.$input = $('<input size="1" type="text" />').appendTo(this.$container);
+
+    this.$element.after(this.$container);
+
+    this.build(options);
+  }
+
+  TagsInput.prototype = {
+    constructor: TagsInput,
+
+    add: function(item, dontPushVal) {
+      var self = this;
+
+      // Ignore falsey values, except false
+      if (item !== false && !item)
+        return;
+
+      // Throw an error when trying to add an object while the itemValue option was not set
+      if (typeof item === "object" && !self.objectItems)
+        throw("Can't add objects when itemValue option is not set");
+
+      // Ignore strings only containg whitespace
+      if (item.toString().match(/^\s*$/))
+        return;
+
+      // If SELECT but not multiple, remove current tag
+      if (self.isSelect && !self.multiple && self.itemsArray.length > 0)
+        self.remove(self.itemsArray[0]);
+
+      if (typeof item === "string" && this.$element[0].tagName === 'INPUT') {
+        var items = item.split(',');
+        if (items.length > 1) {
+          for (var i = 0; i < items.length; i++) {
+            this.add(items[i], true);
+          }
+
+          if (!dontPushVal)
+            self.pushVal();
+          return;
+        }
+      }
+
+      // Ignore items allready added
+      var itemValue = self.options.itemValue(item),
+          itemText = self.options.itemText(item),
+          tagClass = self.options.tagClass(item);
+
+      if ($.grep(self.itemsArray, function(item) { return self.options.itemValue(item) === itemValue; } )[0])
+        return;
+
+      // register item in internal array and map
+      self.itemsArray.push(item);
+
+      // add a tag element
+      var $tag = $('<span class="tag ' + htmlEncode(tagClass) + '">' + itemText + '<span data-role="remove"></span></span>');
+      $tag.data('item', item);
+      self.$input.before($tag);
+
+      // add <option /> if item represents a value not present in one of the <select />'s options
+      if (self.isSelect && !$('option[value="' + escape(itemValue) + '"]')[0]) {
+        var $option = $('<option selected>' + htmlEncode(itemText) + '</option>');
+        $option.data('item', item);
+        $option.attr('value', itemValue);
+        self.$element.append($option);
+      }
+
+     if (!dontPushVal)
+        self.pushVal();
+
+      self.$element.trigger($.Event('itemAdded', { item: item }));
+    },
+
+    remove: function(item, dontPushVal) {
+      var self = this;
+
+      if (self.objectItems) {
+        if (typeof item === "object")
+          item = $.grep(self.itemsArray, function(other) { return self.options.itemValue(other) ==  self.options.itemValue(item); } )[0];
+        else
+          item = $.grep(self.itemsArray, function(other) { return self.options.itemValue(other) ==  item; } )[0];
+      }
+
+      if (item) {
+        $('.tag', self.$container).filter(function() { return $(this).data('item') === item; }).remove();
+        $('option', self.$element).filter(function() { return $(this).data('item') === item; }).remove();
+        self.itemsArray.splice(self.itemsArray.indexOf(item), 1);
+      }
+
+      if (!dontPushVal)
+        self.pushVal();
+
+      self.$element.trigger($.Event('itemRemoved',  { item: item }));
+    },
+
+    removeAll: function() {
+      var self = this;
+
+      $('.tag', self.$container).remove();
+      $('option', self.$element).remove();
+
+      while(self.itemsArray.length > 0)
+        self.itemsArray.pop();
+
+      self.pushVal();
+    },
+
+    refresh: function() {
+      var self = this;
+      $('.tag', self.$container).each(function() {
+        var $tag = $(this),
+            item = $tag.data('item'),
+            itemValue = self.options.itemValue(item),
+            itemText = self.options.itemText(item),
+            tagClass = self.options.tagClass(item);
+
+          // Update tag's class and inner text
+          $tag.attr('class', null);
+          $tag.addClass('tag ' + htmlEncode(tagClass));
+          $tag.contents().filter(function() {
+            return this.nodeType == 3;
+          })[0].nodeValue = itemText;
+
+          if (self.isSelect) {
+            var option = $('option', self.$element).filter(function() { return $(this).data('item') === item; });
+            option.attr('value', itemValue);
+          }
+      });
+    },
+
+    // Returns the items added as tags
+    items: function() {
+      return this.itemsArray;
+    },
+
+    // Assembly value by retrieving the value of each item, and set it on the element. 
+    pushVal: function() {
+      var self = this,
+          val = $.map(self.items(), function(item) {
+            return self.options.itemValue(item).toString();
+          });
+
+      self.$element.val(val, true).trigger('change');
+    },
+
+    build: function(options) {
+      var self = this;
+
+      self.options = $.extend({}, defaultOptions, options);
+      var typeahead = self.options.typeahead || {};
+
+      // When itemValue is set, freeInput should always be false
+      if (self.objectItems)
+        self.options.freeInput = false;
+
+      makeOptionItemFunction(self.options, 'itemValue');
+      makeOptionItemFunction(self.options, 'itemText');
+      makeOptionItemFunction(self.options, 'tagClass');
+
+      // for backwards compatibility, self.options.source is deprecated
+      if (self.options.source)
+        typeahead.source = self.options.source;
+
+      if (typeahead.source && $.fn.typeahead) {
+        makeOptionFunction(typeahead, 'source');
+
+        self.$input.typeahead({
+          delay: 80,
+          items: typeahead.items || 1000,
+          source: function (query, process) {
+            function processItems(items) {
+              var texts = [];
+
+              for (var i = 0; i < items.length; i++) {
+                var text = self.options.itemText(items[i]);
+                map[text] = items[i];
+                texts.push(text);
+              }
+              process(texts);
+            }
+
+            this.map = {};
+            var map = this.map,
+                data = typeahead.source(query);
+
+            if ($.isFunction(data.success)) {
+              // support for Angular promises
+              data.success(processItems);
+            } else {
+              // support for functions and jquery promises
+              $.when(data)
+               .then(processItems);
+            }
+          },
+          updater: function (text) {
+            self.add(this.map[text]);
+          },
+          matcher: function (text) {
+            return (text.toLowerCase().indexOf(this.query.trim().toLowerCase()) !== -1);
+          },
+          sorter: function (texts) {
+            return texts.sort();
+          },
+          highlighter: function (text) {
+            var regex = new RegExp( '(' + this.query + ')', 'gi' );
+            return text.replace( regex, "<strong>$1</strong>" );
+          }
+        });
+      }
+
+      self.$container.on('click', $.proxy(function(event) {
+        self.$input.focus();
+      }, self));
+
+      self.$container.on('keydown', 'input', $.proxy(function(event) {
+        var $input = $(event.target);
+        switch (event.which) {
+          // BACKSPACE
+          case 8:
+            if (doGetCaretPosition($input[0]) === 0) {
+              var prev = $input.prev();
+              if (prev) {
+                self.remove(prev.data('item'));
+              }
+            }
+            break;
+
+          // DELETE
+          case 46:
+            if (doGetCaretPosition($input[0]) === 0) {
+              var next = $input.next();
+              if (next) {
+                self.remove(next.data('item'));
+              }
+            }
+            break;
+
+          // LEFT ARROW
+          case 37:
+            // Try to move the input before the previous tag
+            var $prevTag = $input.prev();
+            if ($input.val().length === 0 && $prevTag[0]) {
+              $prevTag.before($input);
+              $input.focus();
+            }
+            break;
+          // LEFT ARROW
+          case 39:
+            // Try to move the input before the previous tag
+            var $nextTag = $input.next();
+            if ($input.val().length === 0 && $nextTag[0]) {
+              $nextTag.after($input);
+              $input.focus();
+            }
+            break;
+          // ENTER
+          case 13:
+            if (self.options.freeInput) {
+              self.add($input.val());
+              $input.val('');
+            }
+            break;
+
+        }
+
+        $input.attr('size', Math.max(1, $input.val().length));
+      }, self));
+
+      // Remove icon clicked
+      self.$container.on('click', '[data-role=remove]', $.proxy(function(event) {
+        self.remove($(event.target).closest('.tag').data('item'));
+      }, self));
+
+      if (self.$element[0].tagName === 'INPUT') {
+        self.add(self.$element.val());
+      } else {
+        $('option', self.$element).each(function() {
+          self.add($(this).attr('value'), true);
+        });
+      }
+    },
+
+    destroy: function() {
+      var self = this;
+
+      // Unbind events
+      self.$container.off('keypress', 'input');
+      self.$container.off('click', '[50role=remove]');
+
+      self.$container.remove();
+      self.$element.removeData('tagsinput');
+      self.$element.show();
+    },
+
+    focus: function() {
+      this.$input.focus();
+    }
+  };
+
+  // Register JQuery plugin
+  $.fn.tagsinput = function(arg1, arg2) {
+    var results = [];
+
+    this.each(function() {
+      var tagsinput = $(this).data('tagsinput');
+
+      // Initialize a new tags input
+      if (!tagsinput) {
+        tagsinput = new TagsInput(this, arg1);
+        $(this).data('tagsinput', tagsinput);
+        results.push(tagsinput);
+
+        if (this.tagName === 'SELECT') {
+          $('option', $(this)).attr('selected', 'selected');
+        }
+
+        // Init tags from $(this).val()
+        $(this).val($(this).val());
+      } else {
+        // Invoke function on existing tags input
+        var retVal = tagsinput[arg1](arg2);
+        if (retVal !== undefined)
+          results.push(retVal);
+      }
+    });
+
+    if ( typeof arg1 == 'string') {
+      // Return the results from the invoked function calls
+      return results.length > 1 ? results : results[0];
+    } else {
+      return results;
+    }
+  };
+
+  $.fn.tagsinput.Constructor = TagsInput;
+
+  // Most options support both a string or number as well as a function as 
+  // option value. This function makes sure that the option with the given
+  // key in the given options is wrapped in a function
+  function makeOptionItemFunction(options, key) {
+    if (typeof options[key] !== 'function') {
+      var value = options[key];
+      options[key] = function(item) { return item[value]; };
+    }
+  }
+  function makeOptionFunction(options, key) {
+    if (typeof options[key] !== 'function') {
+      var value = options[key];
+      options[key] = function() { return value; };
+    }
+  }
+  // HtmlEncodes the given value
+  var htmlEncodeContainer = $('<div />');
+  function htmlEncode(value) {
+    if (value) {
+      return htmlEncodeContainer.text(value).html();
+    } else {
+      return '';
+    }
+  }
+
+  // Returns the position of the caret in the given input field
+  // http://flightschool.acylt.com/devnotes/caret-position-woes/
+  function doGetCaretPosition(oField) {
+    var iCaretPos = 0;
+    if (document.selection) {
+      oField.focus ();
+      var oSel = document.selection.createRange();
+      oSel.moveStart ('character', -oField.value.length);
+      iCaretPos = oSel.text.length;
+    } else if (oField.selectionStart || oField.selectionStart == '0') {
+      iCaretPos = oField.selectionStart;
+    }
+    return (iCaretPos);
+  }
+
+  $(function() {
+    $("input[data-role=tagsinput], select[multiple][data-role=tagsinput]").tagsinput();
+  });
+})(window.jQuery);
+angular.module('bootstrap-tagsinput', [])
+    .directive('bootstrapTagsinput', ['$timeout', function ($timeout) {
+
+        function getItemProperty(scope, property) {
+            if (!property)
+                return undefined;
+
+            if (angular.isFunction(scope.$parent[property]))
+                return scope.$parent[property];
+
+            return function (item) {
+                return item[property];
+            };
+        }
+
+        return {
+            restrict: 'EA',
+            scope: {
+                model: '=ngModel'
+            },
+            template: '<select multiple></select>',
+            replace: false,
+            link: function (scope, element, attrs) {
+                $(function () {
+                    if (!angular.isArray(scope.model))
+                        scope.model = [];
+
+                    var select = $('select', element);
+
+                    select.tagsinput({
+                        typeahead: {
+                            items: (attrs.maxVisibleItems && parseInt(attrs.maxVisibleItems)) || 8,
+                            source: angular.isFunction(scope.$parent[attrs.typeaheadSource]) ? scope.$parent[attrs.typeaheadSource] : null
+                        },
+                        itemValue: getItemProperty(scope, attrs.itemvalue),
+                        itemText: getItemProperty(scope, attrs.itemtext),
+                        tagClass: angular.isFunction(scope.$parent[attrs.tagclass]) ? scope.$parent[attrs.tagclass] : function (item) {
+                            return attrs.tagclass;
+                        }
+                    });
+
+                    for (var i = 0; i < scope.model.length; i++) {
+                        select.tagsinput('add', scope.model[i]);
+                    }
+
+                    select.on('itemAdded', function (event) {
+                        if (scope.model.indexOf(event.item) === -1) {
+                            scope.model.push(event.item);
+                            scope.$apply();
+                        }
+                    });
+
+                    select.on('itemRemoved', function (event) {
+                        var idx = scope.model.indexOf(event.item);
+                        if (idx !== -1) {
+                            scope.model.splice(idx, 1);
+                            scope.$apply();
+                        }
+                    });
+
+                    // create a shallow copy of model's current state, needed to determine
+                    // diff when model changes
+                    var prev = scope.model.slice();
+                    scope.$watch("model", function () {
+                        var added = scope.model.filter(function (i) {
+                                return prev.indexOf(i) === -1;
+                            }),
+                            removed = prev.filter(function (i) {
+                                return scope.model.indexOf(i) === -1;
+                            }),
+                            i;
+
+                        prev = scope.model.slice();
+
+                        // Remove tags no longer in binded model
+                        for (i = 0; i < removed.length; i++) {
+                            select.tagsinput('remove', removed[i]);
+                        }
+
+                        // Refresh remaining tags
+                        select.tagsinput('refresh');
+
+                        // Add new items in model as tags
+                        for (i = 0; i < added.length; i++) {
+                            select.tagsinput('add', added[i]);
+                        }
+                    }, true);
+
+                    if (attrs.focus) {
+                         $timeout(function() {
+                             select.tagsinput('focus');
+                         }, 50);
+
+                    }
+                });
+            }
+        };
+    }]);
 /**
  * AngularStrap - Twitter Bootstrap directives for AngularJS
  * @version v0.7.7 - 2013-10-04

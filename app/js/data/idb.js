@@ -15,7 +15,17 @@ define(function (require, exports, module) {
                     indexes: {
                         title: {},
                         dateCreated: {},
-                        dateModified: {}
+                        dateModified: {},
+                        tagGroupId: {}
+                    }
+                },
+                tagGroup: {
+                    key: {
+                        keyPath: 'id',
+                        autoIncrement: true
+                    },
+                    indexes: {
+                        tags: { unique: true }
                     }
                 },
                 theme: {
