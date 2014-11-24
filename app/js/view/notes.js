@@ -12,24 +12,23 @@ define(function (require, exports, module) {
 
     exports.controller = function ($scope, $location, $document, $timeout, $modal, $sce) {
 
-        function getNotes() {
+        function getNote() {
             noteRepo.getAll({
                 success: function (notes) {
                     if (notes.length > 0) {
-                        $scope.notes = _.sortBy(notes, function (note) {
-                            return note.gridsterOptions.row;
-                        });
+                        $scope.note = notes[0];
                         $scope.$apply();
+                    } else {
+                        $scope.addNote();
                     }
                 },
                 failure: genericHandlers.error
             });
         }
 
-        //getNotes();
+        $scope.note = {};
 
-        $scope.isAddingNote = false;
-
+        getNote();
 
         $scope.bgColor = '';
 
@@ -39,11 +38,39 @@ define(function (require, exports, module) {
             }
         });
 
-        $scope.editNote = function (note) {
+        function getDefaultNote() {
+            return {
+                title: '',
+                content: '',
+                dateCreated: new Date()
+            };
+        }
+        $scope.addNote = function () {
+            if ($scope.isAddingNote) {
+                return;
+            }
+            noteRepo.add(getDefaultNote(), {
+                success: function (note) {
+                    $scope.note = note;
+                    $scope.$apply();
+                    $scope.isAddingNote = false;
+                },
+                failure: function (error) {
+                    genericHandlers.error(error);
+                    $scope.isAddingNote = false;
+                }
+            });
+            $scope.isAddingNote = true;
+        };
+
+        $scope.editNote = function ($event) {
             $timeout(function () {
-                note.dateModified = new Date();
-                noteRepo.update(note, {succes: genericHandlers.noop, failure: genericHandlers.error});
-            }, 200);
+                if ($event) {
+                    $scope.note.content = $event.target.textContent;
+                }
+                $scope.note.dateModified = new Date();
+                noteRepo.update($scope.note, {succes: genericHandlers.noop, failure: genericHandlers.error});
+            }, 300);
         };
 
         $scope.trustAsHtml = function (content) {
@@ -70,9 +97,9 @@ define(function (require, exports, module) {
             }
         };
 
-        $scope.updateNote = function (note) {
+        $scope.updateNote = function () {
             $timeout(function () {
-//                $scope.editNote(note);
+                $scope.editNote();
             }, 300);
         };
 
