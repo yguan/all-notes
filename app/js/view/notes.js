@@ -19,11 +19,29 @@ define(function (require, exports, module) {
                         $scope.note = notes[0];
                         $scope.$apply();
                     } else {
-                        $scope.addNote();
+                        addNote();
                     }
                 },
                 failure: genericHandlers.error
             });
+        }
+
+        function addNote() {
+            if ($scope.isAddingNote) {
+                return;
+            }
+            noteRepo.add(getDefaultNote(), {
+                success: function (note) {
+                    $scope.note = note;
+                    $scope.$apply();
+                    $scope.isAddingNote = false;
+                },
+                failure: function (error) {
+                    genericHandlers.error(error);
+                    $scope.isAddingNote = false;
+                }
+            });
+            $scope.isAddingNote = true;
         }
 
         $scope.note = {};
@@ -45,23 +63,7 @@ define(function (require, exports, module) {
                 dateCreated: new Date()
             };
         }
-        $scope.addNote = function () {
-            if ($scope.isAddingNote) {
-                return;
-            }
-            noteRepo.add(getDefaultNote(), {
-                success: function (note) {
-                    $scope.note = note;
-                    $scope.$apply();
-                    $scope.isAddingNote = false;
-                },
-                failure: function (error) {
-                    genericHandlers.error(error);
-                    $scope.isAddingNote = false;
-                }
-            });
-            $scope.isAddingNote = true;
-        };
+        $scope.addNote = addNote;
 
         $scope.editNote = function ($event) {
             $timeout(function () {
