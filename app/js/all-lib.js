@@ -6601,70 +6601,44 @@ _.mixin({
     }
 
     function handleKeyUp(event) {
-        var keyCode = event.keyCode,
-            element = event.target;
+        var keyCode = event.keyCode;
 
         if (keyCode >= 65 && keyCode <= 90 && !event.ctrlKey && !event.shiftKey) { // a-z and A-Z
-            typeAhead(element);
+            typeAhead();
         }
     }
 
-    // http://stackoverflow.com/questions/16095155/javascript-contenteditable-set-cursor-caret-to-index/16100733#16100733
-    function selectRange(element, start, end) {
-        var rng = document.createRange(),
-            sel = getSelection(),
-            n, o = 0,
-            tw = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, null);
-        while (n = tw.nextNode()) {
-            o += n.nodeValue.length;
-            if (o > start) {
-                rng.setStart(n, n.nodeValue.length + start - o);
-                start = Infinity;
-            }
-            if (o >= end) {
-                rng.setEnd(n, n.nodeValue.length + end - o);
-                break;
-            }
-        }
-        sel.removeAllRanges();
-        sel.addRange(rng);
-    }
-
-    function typeAhead(element) {
+    function typeAhead() {
         var splitWords = splitWordsByCursor(),
             suggestion = getSuggestion(splitWords.wordBeforeCursor),
-            wordsWithSuggestion;
+            suggestionSubStr;
 
         if (suggestion && suggestion !== splitWords.wordBeforeCursor) {
-            wordsWithSuggestion = splitWords.textBeforeCursorAndLastWordSeparator + suggestion
-            element.textContent = wordsWithSuggestion + splitWords.textAfterCursor;
-            var start = splitWords.textBeforeCursor.length;
-            var end = wordsWithSuggestion.length;
-            selectRange(element, start, end);
+            suggestionSubStr = suggestion.substring(splitWords.wordBeforeCursor.length, suggestion.length);
+            insertText(suggestionSubStr);
         }
+    }
+
+    function insertText(text) {
+        var sel = window.getSelection(),
+            range = sel.getRangeAt(0).cloneRange();
+
+        document.execCommand('inserttext', false, text);
+        range.setEnd(range.endContainer, range.startOffset + text.length);
+
+        sel.removeAllRanges();
+        sel.addRange(range);
     }
 
     function getLastWordSeparatorIndex(text) {
-        var lastSpace = text.lastIndexOf(' '),
+        var lastSpace = text.search(/ [^\s]*$/),
+            lastNoneBreakingSpace = text.lastIndexOf(String.fromCharCode(160)),
             lastSingleQuote = text.lastIndexOf("'"),
             lastDoubleQuote = text.lastIndexOf('"'),
             lastHyphen = text.lastIndexOf('-'),
             lastUnderscore = text.lastIndexOf('_'),
             lastEnter = text.lastIndexOf("\n");
-        return Math.max(lastSpace, lastEnter, lastSingleQuote, lastDoubleQuote, lastHyphen, lastUnderscore);
-    }
-
-    // from http://stackoverflow.com/questions/9959690/javascript-get-word-before-cursor
-    function getWordBeforeCursor() {
-        var range = window.getSelection().getRangeAt(0),
-            text,
-            lastWordSeparatorIndex;
-        if (range.collapsed) {
-            text = range.startContainer.textContent.substring(0, range.startOffset);
-            lastWordSeparatorIndex = getLastWordSeparatorIndex(text);
-            return text.substring(lastWordSeparatorIndex + 1, text.length - lastWordSeparatorIndex - 1);
-        }
-        return '';
+        return Math.max(lastSpace, lastNoneBreakingSpace, lastEnter, lastSingleQuote, lastDoubleQuote, lastHyphen, lastUnderscore);
     }
 
     function splitWordsByCursor() {
@@ -6692,7 +6666,6 @@ _.mixin({
     function getSuggestion(text) {
         var allWords = getAllWords(),
             word,
-            commonStrIndex,
             textLowerCase = text.toLocaleLowerCase();
 
         if (text.length > 0) {
@@ -6703,11 +6676,11 @@ _.mixin({
                     if (word.indexOf(text) == 0) {
                         return word;
                     }
-                    
+
                     if (text.length > 1 && text.toUpperCase() === text) {
                         return word.toUpperCase();
                     }
-                    
+
                     return text + word.substr(text.length, word.length - text.length);
                 }
             }

@@ -104,7 +104,7 @@ define(function (require, exports, module) {
 
         $scope.editNote = function ($event) {
             if (isLetterKey($event)) {
-                $scope.note.content = $event.target.textContent;
+                $scope.note.content = $event.target.innerHTML;
             }
             updateNote($scope.note);
         };
