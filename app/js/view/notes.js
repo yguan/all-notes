@@ -138,9 +138,7 @@ define(function (require, exports, module) {
         };
 
         $scope.formatNote = function () {
-            $timeout(function () {
-                $scope.editNote();
-            }, 300);
+            $scope.editNote();
         };
 
         new AutoSuggest($('#note-content')[0]);
