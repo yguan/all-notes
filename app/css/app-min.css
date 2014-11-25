@@ -604,7 +604,6 @@ th.hidden-lg,td.hidden-lg{display:table-cell !important;}
 .visible-print,tr.visible-print,th.visible-print,td.visible-print{display:none !important;}
 @media print{.visible-print{display:block !important;}tr.visible-print{display:table-row !important;} th.visible-print,td.visible-print{display:table-cell !important;} .hidden-print,tr.hidden-print,th.hidden-print,td.hidden-print{display:none !important;}}
 
-.bootstrap-tagsinput{background-color:#fff;border:1px solid #ccc;box-shadow:inset 0 1px 1px rgba(0,0,0,0.075);display:inline-block;padding:4px 6px;margin-bottom:10px;color:#555;vertical-align:middle;border-radius:4px;max-width:100%;line-height:22px}.bootstrap-tagsinput input{border:0;box-shadow:none;outline:0;background-color:transparent;padding:0;margin:0;width:auto!important;max-width:inherit}.bootstrap-tagsinput input:focus{border:0;box-shadow:none}.bootstrap-tagsinput .tag{margin-right:2px;color:white}.bootstrap-tagsinput .tag [data-role="remove"]{margin-left:8px;cursor:pointer}.bootstrap-tagsinput .tag [data-role="remove"]:after{content:"x";padding:0 2px}.bootstrap-tagsinput .tag [data-role="remove"]:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05)}.bootstrap-tagsinput .tag [data-role="remove"]:hover:active{box-shadow:inset 0 3px 5px rgba(0,0,0,0.125)}
 /*!
  *  Font Awesome 4.0.3 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
@@ -1024,12 +1023,4 @@ h4 {
 }
 .popover {
   max-width: 1000px !important;
-}
-.tag-default {
-  background-color: #3a87ad;
-  font-size: 14px;
-}
-.tag.label {
-  padding: .2em .6em;
-  font-weight: normal;
 }

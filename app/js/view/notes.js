@@ -5,7 +5,6 @@ define(function (require, exports, module) {
     'use strict';
 
     var noteRepo = require('data/note-repository'),
-        tagGroupRepo = require('data/tag-group-repository'),
         genericHandlers = require('view/generic-handlers'),
         theme = require('view/theme'),
         noteContentElement;
@@ -21,12 +20,6 @@ define(function (require, exports, module) {
                     if (notes.length > 0) {
                         $scope.note = note;
                         $scope.$apply();
-                        tagGroupRepo.get(note.tagGroupId, {
-                            success: function (tagGroup) {
-                                $scope.selectedTags = tagGroup.tags;
-                                $scope.$apply();
-                            }
-                        });
                     } else {
                         addNote();
                     }
@@ -61,26 +54,12 @@ define(function (require, exports, module) {
         getNote();
 
         $scope.bgColor = '';
-        $scope.selectedTags = [];
 
         $scope.$watch('bgColor', function (newVal, oldVal) {
             if (newVal.length > 0) {
                 theme.setBgColor(newVal);
             }
         });
-
-        $scope.$watch('selectedTags', function (newVal, oldVal) {
-            var tags = _.map(newVal, function (str) {
-                return str.toLowerCase();
-            });
-            tagGroupRepo.add(tags, {
-                success: function (tagGroup) {
-                    $scope.note.tagGroupId = tagGroup.id;
-                    updateNote($scope.note);
-                }
-            })
-        }, true);
-
 
         function getDefaultNote() {
             return {
@@ -145,9 +124,5 @@ define(function (require, exports, module) {
         noteContentElement = $('#note-content')[0];
         new AutoSuggest(noteContentElement);
         noteContentElement.focus();
-
-        $scope.getTags = function () {
-            return tagGroupRepo.getAllTags();
-        };
     };
 });

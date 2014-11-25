@@ -32,8 +32,7 @@ define(function (require, exports, module) {
                 'styling',
                 'contenteditable',
                 'colorpicker.module',
-                'angular-textedit',
-                'bootstrap-tagsinput'
+                'angular-textedit'
             ]);
 
             configViewRouting(noteApp);

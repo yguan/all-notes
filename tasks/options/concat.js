@@ -2,7 +2,6 @@ module.exports = {
     cssdev: {
         src: [
             '<%= folder.src %>/less/css/bootstrap-min.css',
-            '<%= folder.src %>/less/css/bootstrap-tagsinput-min.css',
             '<%= folder.src %>/less/css/font-awesome-min.css',
             '<%= folder.src %>/css/app.css'
         ],
@@ -11,7 +10,6 @@ module.exports = {
     cssdist: {
         src: [
             '<%= folder.src %>/less/css/bootstrap-min.css',
-            '<%= folder.src %>/less/css/bootstrap-tagsinput-min.css',
             '<%= folder.src %>/less/css/font-awesome-min.css',
             '<%= folder.buildTemp %>/app.css'
         ],
@@ -29,9 +27,6 @@ module.exports = {
             '<%= folder.src %>/js/lib/angular/angular-sanitize.js',
             '<%= folder.src %>/js/lib/angular/angular-mobile.js',
             '<%= folder.src %>/js/lib/angular/bootstrap.js',
-            '<%= folder.src %>/js/lib/angular/bootstrap3-typeahead.js',
-            '<%= folder.src %>/js/lib/angular/bootstrap-tagsinput.js',
-            '<%= folder.src %>/js/lib/angular/bootstrap-tagsinput-angular.js',
             '<%= folder.src %>/js/lib/angular/angular-strap.js',
             '<%= folder.src %>/js/lib/angular/angular-contenteditable.js',
             '<%= folder.src %>/js/lib/angular/angular-file-upload.js',

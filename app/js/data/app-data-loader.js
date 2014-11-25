@@ -5,8 +5,7 @@ define(function (require, exports, module) {
     'use strict';
 
     var idb = require('data/idb'),
-        themeRepo = require('data/theme-repository'),
-        tagGroupRepo = require('data/tag-group-repository');
+        themeRepo = require('data/theme-repository');
 
     /**
      * init should be called first and wait for loadIndexedDB completed before calling other methods
@@ -27,7 +26,6 @@ define(function (require, exports, module) {
                     },
                     failure: op.failure
                 });
-                tagGroupRepo.loadAllTagsToCache(op);
             },
             failure: op.failure
         });
