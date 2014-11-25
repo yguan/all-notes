@@ -7,7 +7,8 @@ define(function (require, exports, module) {
     var noteRepo = require('data/note-repository'),
         tagGroupRepo = require('data/tag-group-repository'),
         genericHandlers = require('view/generic-handlers'),
-        theme = require('view/theme');
+        theme = require('view/theme'),
+        noteContentElement;
 
     exports.name = 'NotesCtrl';
 
@@ -141,9 +142,9 @@ define(function (require, exports, module) {
             $scope.editNote();
         };
 
-        new AutoSuggest($('#note-content')[0]);
-
-        // todo: push code to services
+        noteContentElement = $('#note-content')[0];
+        new AutoSuggest(noteContentElement);
+        noteContentElement.focus();
 
         $scope.getTags = function () {
             return tagGroupRepo.getAllTags();
