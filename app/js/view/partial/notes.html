@@ -17,7 +17,7 @@
              contenteditable="true"
              ng-model="note.title"
              ng-keyup="updateTitle()"
-             placeholder="Title">
+             placeholder="Enter title here">
         </div>
         <bootstrap-tagsinput
                 ng-model="selectedTags"
@@ -28,6 +28,7 @@
         <div id="note-content"
              class="content"
              contenteditable="true"
+             placeholder="Enter content here"
              ng-model="note.content"
              strip-br="true"
              select-non-editable="true"

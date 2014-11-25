@@ -90,3 +90,9 @@
 .no-outline {
   outline: none;
 }
+
+[contenteditable][placeholder]:empty:before {
+  content: attr(placeholder);
+  color: #bababa;
+  font-weight: normal;
+}

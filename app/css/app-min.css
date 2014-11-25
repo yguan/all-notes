@@ -857,6 +857,11 @@ th.hidden-lg,td.hidden-lg{display:table-cell !important;}
 .no-outline {
   outline: none;
 }
+[contenteditable][placeholder]:empty:before {
+  content: attr(placeholder);
+  color: #bababa;
+  font-weight: normal;
+}
 .default-font {
   font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
   font-size: 14px;
