@@ -1025,7 +1025,7 @@ h4 {
   max-width: 1000px !important;
 }
 .note-title-list {
-  height: 500px;
+  height: 450px;
   width: 600px;
 }
 .note-title-list .fa {
@@ -1049,7 +1049,7 @@ h4 {
 }
 .sidebar-divider {
   display: block;
-  height: 200px;
+  height: 300px;
 }
 .st-sort-ascent:after {
   content: "\f0dd";
