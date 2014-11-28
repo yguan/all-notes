@@ -34,6 +34,15 @@
   }
 }
 
+.left-padding-font(@fontContent) {
+  content: "\@{fontContent}";
+  display: inline-block;
+  font-family: FontAwesome;
+  width: 14px;
+  height: 16px;
+  padding-left: 5px;
+}
+
 //#0172c8
 //#e91124
 //#de3b01
@@ -195,3 +204,24 @@ h4 {
   max-width: 1000px !important;
 }
 
+.note-title-list {
+  height: 500px;
+  width: 600px;
+  .default-fa-style(14px);
+  
+  th {
+    .hand-cursor;
+  }
+}
+
+.sidebar-divider {
+  display: block;
+  height: 200px;
+}
+
+.st-sort-ascent:after {
+  .left-padding-font(f0dd);
+}
+.st-sort-descent:after {
+  .left-padding-font(f0de);
+}

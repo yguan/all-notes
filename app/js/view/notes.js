@@ -117,6 +117,17 @@ define(function (require, exports, module) {
             }
         };
 
+        $scope.displayNoteTitles = function () {
+            noteRepo.getAll({
+                success: function (notes) {
+                    $scope.noteTitles = notes;
+                    $scope.displayedNoteTitles = [].concat($scope.noteTitles);
+                    $scope.$apply();
+                },
+                failure: genericHandlers.error
+            });
+        };
+
         $scope.formatNote = function () {
             $scope.editNote();
         };

@@ -29,6 +29,7 @@ function () {
         'lib/angular/angular-contenteditable',
         'lib/angular/angular-file-upload',
         'lib/angular/angular-text-edit',
+        'lib/angular/smart-table',
         'lib/angular/styling',
         'lib/angular/bootstrap-colorpicker',
         'lib/angular/jquery.colorpicker'

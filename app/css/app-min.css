@@ -1024,3 +1024,42 @@ h4 {
 .popover {
   max-width: 1000px !important;
 }
+.note-title-list {
+  height: 500px;
+  width: 600px;
+}
+.note-title-list .fa {
+  color: #428bca;
+  font-size: 14px;
+  cursor: pointer;
+}
+.note-title-list .fa:hover {
+  color: #285e8e;
+}
+.note-title-list .fa.text-icon {
+  font-size: 25px;
+  font-weight: bold;
+}
+.note-title-list th {
+  cursor: pointer;
+}
+.sidebar-divider {
+  display: block;
+  height: 200px;
+}
+.st-sort-ascent:after {
+  content: "\f0dd";
+  display: inline-block;
+  font-family: FontAwesome;
+  width: 14px;
+  height: 16px;
+  padding-left: 5px;
+}
+.st-sort-descent:after {
+  content: "\f0de";
+  display: inline-block;
+  font-family: FontAwesome;
+  width: 14px;
+  height: 16px;
+  padding-left: 5px;
+}

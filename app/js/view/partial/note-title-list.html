@@ -1,0 +1,21 @@
+<form name="popoverForm" class="note-title-list">
+    <div class="form-actions">
+        <button type="button" class="btn btn-primary" ng-click="dismiss()">Close</button>
+    </div>
+    <div class="list">
+        <table st-table="displayedNoteTitles" st-safe-src="noteTitles" class="table table-striped">
+            <thead>
+            <tr>
+                <th st-sort="title">Title</th>
+                <th st-sort="dateModified">Modified Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in displayedNoteTitles">
+                <td class="link" ng-click="openNote(row.id)">{{row.title}}</td>
+                <td>{{row.dateModified | date:'medium'}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</form>

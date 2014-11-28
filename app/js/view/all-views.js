@@ -32,7 +32,8 @@ define(function (require, exports, module) {
                 'styling',
                 'contenteditable',
                 'colorpicker.module',
-                'angular-textedit'
+                'angular-textedit',
+                'smart-table'
             ]);
 
             configViewRouting(noteApp);

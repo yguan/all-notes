@@ -2,13 +2,20 @@
     <div class="sidebar-menu">
         <span class="fa fa-cog" colorpicker class="span2" ng-model="bgColor" title="Change Background Color"></span>
         <span class="fa fa-plus" ng-click="addNote()" title="Add Note"></span>
-        <span class="fa fa-list" ng-click="showNotes()" title="Show Notes"></span>
         <span class="fa fa-times"
               data-unique="1"
               data-placement="right"
               bs-popover="'js/view/partial/delete-note.html'"
               ng-click="setCurrentNodeToDelete()"
               title="Delete Note">
+        </span>
+        <span class="sidebar-divider"></span>
+        <span class="fa fa-list"
+              data-unique="1"
+              data-placement="right"
+              bs-popover="'js/view/partial/note-title-list.html'"
+              ng-click="displayNoteTitles()"
+              title="Show Note Title List">
         </span>
     </div>
     <div class="notes">
