@@ -128,6 +128,16 @@ define(function (require, exports, module) {
             });
         };
 
+        $scope.openNote = function (noteId) {
+            noteRepo.get(noteId, {
+                success: function (note) {
+                    $scope.note = note;
+                    $scope.$apply();
+                },
+                failure: genericHandlers.error
+            });
+        };
+
         $scope.formatNote = function () {
             $scope.editNote();
         };
