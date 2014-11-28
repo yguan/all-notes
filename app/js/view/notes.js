@@ -93,21 +93,21 @@ define(function (require, exports, module) {
             return $sce.trustAsHtml(content);
         };
 
-        $scope.setCurrentNodeToDelete = function () {
-            $scope.noteToDelete = $scope.note;
+        $scope.setCurrentNodeToClear = function () {
+            $scope.noteToClear = $scope.note;
         };
 
         $scope.popover = {
-            deleteNote: function (dismiss) {
-                if ($scope.noteToDelete === $scope.note) {
+            clearNote: function (dismiss) {
+                if ($scope.noteToClear === $scope.note) {
                     $scope.note.title = '';
                     $scope.note.content = '';
                     updateNote($scope.note);
                     dismiss();
                 } else {
-                    $scope.noteToDelete.remove = true;
+                    $scope.noteToClear.remove = true;
 
-                    noteRepo.remove($scope.noteToDelete.id, {
+                    noteRepo.remove($scope.noteToClear.id, {
                         success: function () {
                             dismiss();
                         },
