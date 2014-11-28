@@ -1047,6 +1047,9 @@ h4 {
   cursor: pointer;
   color: blue;
 }
+.note-title-list .date-column {
+  width: 170px;
+}
 .sidebar-divider {
   display: block;
   height: 300px;
