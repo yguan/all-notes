@@ -453,3 +453,9 @@ h4 {
   height: 16px;
   padding-left: 5px;
 }
+.search-box {
+  padding: 5px 0 !important;
+}
+.form-actions.right-align {
+  text-align: right;
+}
