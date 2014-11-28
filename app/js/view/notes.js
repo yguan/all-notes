@@ -37,6 +37,7 @@ define(function (require, exports, module) {
                     $scope.note = note;
                     $scope.$apply();
                     $scope.isAddingNote = false;
+                    focusOnTitle();
                 },
                 failure: function (error) {
                     genericHandlers.error(error);
@@ -49,6 +50,10 @@ define(function (require, exports, module) {
         function isLetterKey(event) {
             var keyCode = event.keyCode;
             return keyCode >= 65 && keyCode <= 90 && !event.ctrlKey && !event.shiftKey;
+        }
+
+        function focusOnTitle() {
+            $('.notes .title')[0].focus();
         }
 
         getNote();
@@ -104,6 +109,7 @@ define(function (require, exports, module) {
                     $scope.note.content = '';
                     updateNote($scope.note);
                     dismiss();
+                    focusOnTitle();
                 } else {
                     $scope.noteToClear.remove = true;
 
@@ -133,6 +139,7 @@ define(function (require, exports, module) {
                 success: function (note) {
                     $scope.note = note;
                     $scope.$apply();
+                    focusOnTitle();
                 },
                 failure: genericHandlers.error
             });
@@ -142,8 +149,7 @@ define(function (require, exports, module) {
             $scope.editNote();
         };
 
-        noteContentElement = $('#note-content')[0];
-        new AutoSuggest(noteContentElement);
-        noteContentElement.focus();
+        new AutoSuggest($('.notes .content')[0]);
+        focusOnTitle();
     };
 });
