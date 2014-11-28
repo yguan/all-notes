@@ -445,7 +445,7 @@ h4 {
   height: 300px;
 }
 .st-sort-ascent:after {
-  content: "\f0dd";
+  content: "\f0de";
   display: inline-block;
   font-family: FontAwesome;
   width: 14px;
@@ -453,7 +453,7 @@ h4 {
   padding-left: 5px;
 }
 .st-sort-descent:after {
-  content: "\f0de";
+  content: "\f0dd";
   display: inline-block;
   font-family: FontAwesome;
   width: 14px;
