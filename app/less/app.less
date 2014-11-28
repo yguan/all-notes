@@ -221,6 +221,56 @@ h4 {
   .date-column {
     width: 170px;
   }
+
+  .search-box {
+    padding: 5px 0 !important;
+    width: 100% !important;
+  }
+
+  table {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    height: 455px; /* this can vary */
+  }
+
+  thead {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    align-items: stretch;
+
+    th {
+      border-top: none !important;
+    }
+  }
+
+  tbody {
+    overflow-y: scroll;
+    display: inline-block;
+  }
+
+  thead > tr, tbody > tr, tfoot > tr {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+
+  th, tbody td {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+  }
+
+  th:nth-child(1),
+  td:nth-child(1) {
+    width: 600px - 180px;
+  }
+
+  th:nth-child(2),
+  td:nth-child(2) {
+    width: 180px;
+  }
 }
 
 .sidebar-divider {
@@ -233,12 +283,4 @@ h4 {
 }
 .st-sort-descent:after {
   .left-padding-font(f0dd);
-}
-
-.search-box {
-  padding: 5px 0 !important;
-}
-
-.form-actions.right-align {
-  text-align: right;
 }

@@ -440,6 +440,52 @@ h4 {
 .note-title-list .date-column {
   width: 170px;
 }
+.note-title-list .search-box {
+  padding: 5px 0 !important;
+  width: 100% !important;
+}
+.note-title-list table {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  height: 455px;
+  /* this can vary */
+
+}
+.note-title-list thead {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: stretch;
+}
+.note-title-list thead th {
+  border-top: none !important;
+}
+.note-title-list tbody {
+  overflow-y: scroll;
+  display: inline-block;
+}
+.note-title-list thead > tr,
+.note-title-list tbody > tr,
+.note-title-list tfoot > tr {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.note-title-list th,
+.note-title-list tbody td {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
+.note-title-list th:nth-child(1),
+.note-title-list td:nth-child(1) {
+  width: 420px;
+}
+.note-title-list th:nth-child(2),
+.note-title-list td:nth-child(2) {
+  width: 180px;
+}
 .sidebar-divider {
   display: block;
   height: 300px;
@@ -459,10 +505,4 @@ h4 {
   width: 14px;
   height: 16px;
   padding-left: 5px;
-}
-.search-box {
-  padding: 5px 0 !important;
-}
-.form-actions.right-align {
-  text-align: right;
 }
