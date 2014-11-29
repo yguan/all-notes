@@ -18,6 +18,11 @@ define(function (require, exports, module) {
                         dateModified: {}
                     }
                 },
+                noteSummary: {
+                    key: {
+                        keyPath: 'id'
+                    }
+                },
                 theme: {
                     key: {
                         keyPath: 'id',

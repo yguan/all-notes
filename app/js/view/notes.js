@@ -5,9 +5,9 @@ define(function (require, exports, module) {
     'use strict';
 
     var noteRepo = require('data/note-repository'),
+        noteSummaryRepo = require('data/note-summary-repository'),
         genericHandlers = require('view/generic-handlers'),
-        theme = require('view/theme'),
-        noteContentElement;
+        theme = require('view/theme');
 
     exports.name = 'NotesCtrl';
 
@@ -28,6 +28,14 @@ define(function (require, exports, module) {
             });
         }
 
+        function getSummaryNote(note) {
+            return {
+                id: note.id,
+                title: note.title,
+                dateModified: note.dateModified
+            };
+        }
+
         function addNote() {
             if ($scope.isAddingNote) {
                 return;
@@ -38,6 +46,7 @@ define(function (require, exports, module) {
                     $scope.$apply();
                     $scope.isAddingNote = false;
                     focusOnTitle();
+                    noteSummaryRepo.add(getSummaryNote(note));
                 },
                 failure: function (error) {
                     genericHandlers.error(error);
@@ -78,6 +87,7 @@ define(function (require, exports, module) {
             $timeout(function () {
                 note.dateModified = new Date();
                 noteRepo.update(note, {succes: genericHandlers.noop, failure: genericHandlers.error});
+                noteSummaryRepo.update(getSummaryNote(note));
             }, 300);
         }
 
@@ -98,33 +108,18 @@ define(function (require, exports, module) {
             return $sce.trustAsHtml(content);
         };
 
-        $scope.setCurrentNodeToClear = function () {
-            $scope.noteToClear = $scope.note;
-        };
-
         $scope.popover = {
             clearNote: function (dismiss) {
-                if ($scope.noteToClear === $scope.note) {
-                    $scope.note.title = '';
-                    $scope.note.content = '';
-                    updateNote($scope.note);
-                    dismiss();
-                    focusOnTitle();
-                } else {
-                    $scope.noteToClear.remove = true;
-
-                    noteRepo.remove($scope.noteToClear.id, {
-                        success: function () {
-                            dismiss();
-                        },
-                        failure: genericHandlers.error
-                    });
-                }
+                $scope.note.title = '';
+                $scope.note.content = '';
+                updateNote($scope.note);
+                dismiss();
+                focusOnTitle();
             }
         };
 
         $scope.displayNoteTitles = function () {
-            noteRepo.getAll({
+            noteSummaryRepo.getAll({
                 success: function (notes) {
                     $scope.noteTitles = notes;
                     $scope.displayedNoteTitles = [].concat($scope.noteTitles);

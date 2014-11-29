@@ -462,7 +462,7 @@ h4 {
   border-top: none !important;
 }
 .note-title-list tbody {
-  overflow-y: scroll;
+  overflow-y: auto;
   display: inline-block;
 }
 .note-title-list thead > tr,
