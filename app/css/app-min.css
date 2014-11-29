@@ -1026,7 +1026,7 @@ h4 {
 }
 .note-title-list {
   height: 450px;
-  width: 600px;
+  width: 800px;
 }
 .note-title-list .fa {
   color: #428bca;
@@ -1046,9 +1046,6 @@ h4 {
 .note-title-list .link {
   cursor: pointer;
   color: blue;
-}
-.note-title-list .date-column {
-  width: 170px;
 }
 .note-title-list .search-box {
   padding: 5px 0 !important;
@@ -1090,7 +1087,7 @@ h4 {
 }
 .note-title-list th:nth-child(1),
 .note-title-list td:nth-child(1) {
-  width: 420px;
+  width: 620px;
 }
 .note-title-list th:nth-child(2),
 .note-title-list td:nth-child(2) {

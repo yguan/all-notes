@@ -204,9 +204,12 @@ h4 {
   max-width: 1000px !important;
 }
 
+@note-title-list-width: 800px;
+@date-column-width: 180px;
+
 .note-title-list {
   height: 450px;
-  width: 600px;
+  width: @note-title-list-width;
   .default-fa-style(14px);
 
   th {
@@ -216,10 +219,6 @@ h4 {
   .link {
     .hand-cursor;
     color: blue;
-  }
-  
-  .date-column {
-    width: 170px;
   }
 
   .search-box {
@@ -264,12 +263,12 @@ h4 {
 
   th:nth-child(1),
   td:nth-child(1) {
-    width: 600px - 180px;
+    width: @note-title-list-width - @date-column-width;
   }
 
   th:nth-child(2),
   td:nth-child(2) {
-    width: 180px;
+    width: @date-column-width;
   }
 }
 
