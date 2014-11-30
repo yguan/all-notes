@@ -16,10 +16,10 @@ define(function (require, exports, module) {
         };
     }
 
-    function createNote(content) {
+    function createNote(title, content) {
         var date = new Date();
         return {
-            title: content.substr(0, 70),
+            title: title,
             content: content,
             dateCreated: date,
             dateModified: date
@@ -37,8 +37,8 @@ define(function (require, exports, module) {
         });
     }
 
-    function addNoteWithContent(content) {
-        addNote(createNote(content));
+    function addNoteWithContent(title, content) {
+        addNote(createNote(title, content));
     }
 
     function addEmptyNote(op) {
@@ -73,12 +73,11 @@ define(function (require, exports, module) {
                 return;
             }
 
-            var file = files[index];
             reader.onload = function (e) {
-                processContentFn(e.target.result);
+                processContentFn(files[index].name, e.target.result);
                 readFile(index + 1)
             };
-            reader.readAsText(file);
+            reader.readAsText(files[index]);
         }
 
         readFile(0);

@@ -22,7 +22,7 @@ define(function (require, exports, module) {
                         $scope.note = note;
                         $scope.$apply();
                     } else {
-                        addNote();
+                        noteService.addEmptyNote();
                     }
                 },
                 failure: genericHandlers.error
