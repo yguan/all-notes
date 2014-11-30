@@ -26,6 +26,7 @@ function () {
         'lib/angular/angular-sanitize',
         'lib/angular/angular-mobile',
         'lib/angular/bootstrap',
+        'lib/angular/bootbox',
         'lib/angular/angular-strap',
         'lib/angular/angular-contenteditable',
         'lib/angular/angular-file-upload',

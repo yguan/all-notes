@@ -13,6 +13,33 @@ define(function (require, exports, module) {
     exports.name = 'NotesCtrl';
 
     exports.controller = function ($scope, $location, $document, $timeout, $modal, $sce) {
+        var $noteContent = document.querySelector('.notes .content');
+
+        function selectElementContents(el) {
+            var range = document.createRange();
+            range.selectNodeContents(el);
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+
+        function initEvent() {
+            document.addEventListener('keydown', function(event) {
+                if (event.keyCode === 17) {          // when ctrl is pressed
+                    $noteContent.contentEditable = false; // disable contentEditable
+                }
+                if (event.keyCode === 65 && event.ctrlKey) {
+                    event.preventDefault();
+                    selectElementContents($noteContent);
+                }
+            }, false);
+
+            document.addEventListener('keyup', function(event) {
+                if (event.keyCode === 17) {          // when ctrl is released
+                    $noteContent.contentEditable = true;  // reenable contentEditable
+                }
+            }, false);
+        }
 
         function getNote() {
             noteRepo.getAll({
@@ -134,7 +161,8 @@ define(function (require, exports, module) {
             $scope.editNote();
         };
 
-        new AutoSuggest($('.notes .content')[0]);
+        new AutoSuggest($noteContent);
         focusOnTitle();
+        initEvent();
     };
 });
