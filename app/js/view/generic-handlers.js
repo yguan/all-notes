@@ -4,10 +4,19 @@
 define(function (require, exports, module) {
     'use strict';
 
-    exports.noop = function () {
-    };
+    function noop() {
+    }
 
-    exports.error = function (error) {
+    function failure(error) {
         console.log(error);
+    }
+
+    exports.noop = noop;
+
+    exports.error = failure;
+
+    exports.defaultOp = {
+        success: noop,
+        failure: failure
     };
 });

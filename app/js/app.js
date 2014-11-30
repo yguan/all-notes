@@ -5,6 +5,7 @@ require.config({
     baseUrl: 'js',
     paths: {
         data: './data',
+        service: './service',
         view: './view',
         partial: './view/partial',
         extension: './extension',

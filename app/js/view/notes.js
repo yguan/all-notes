@@ -7,7 +7,8 @@ define(function (require, exports, module) {
     var noteRepo = require('data/note-repository'),
         noteSummaryRepo = require('data/note-summary-repository'),
         genericHandlers = require('view/generic-handlers'),
-        theme = require('view/theme');
+        theme = require('view/theme'),
+        noteService = require('service/note-service');
 
     exports.name = 'NotesCtrl';
 
@@ -115,6 +116,15 @@ define(function (require, exports, module) {
                 updateNote($scope.note);
                 dismiss();
                 focusOnTitle();
+            },
+            isUploadingFiles: false,
+            uploadTextFilesAsNotes: function (files, dismiss) {
+                noteService.addTextFilesAsNotes(files, function () {
+                    $scope.popover.isUploadingFiles = true;
+                }, function () {
+                    $scope.popover.isUploadingFiles = false;
+                    dismiss();
+                });
             }
         };
 
