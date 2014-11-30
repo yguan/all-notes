@@ -17,20 +17,44 @@ define(function (require, exports, module) {
     }
 
     function createNote(content) {
+        var date = new Date();
         return {
             title: content.substr(0, 70),
             content: content,
-            dateCreated: new Date()
+            dateCreated: date,
+            dateModified: date
         };
     }
 
-    function addNote(content) {
-        noteRepo.add(createNote(content), {
+    function addNote(newNote, op) {
+        op = op || genericHandlers.defaultOp;
+        noteRepo.add(newNote, {
             success: function (note) {
                 noteSummaryRepo.add(getSummaryNote(note));
+                op.success();
             },
-            failure: genericHandlers.error
+            failure: op.failure
         });
+    }
+
+    function addNoteWithContent(content) {
+        addNote(createNote(content));
+    }
+
+    function addEmptyNote(op) {
+        var date = new Date();
+        addNote({
+            title: '',
+            content: '',
+            dateCreated: date,
+            dateModified: date
+        }, op);
+    }
+
+    function updateNote(note) {
+        note.dateModified = new Date();
+        noteRepo.update(note, {success: genericHandlers.noop, failure: genericHandlers.error});
+        noteSummaryRepo.update(getSummaryNote(note));
     }
 
     function readFiles(files, processContentFn, onStartFn, onCompleteFn) {
@@ -61,6 +85,10 @@ define(function (require, exports, module) {
     }
 
     exports.addTextFilesAsNotes = function (files, onStartFn, onCompleteFn) {
-        readFiles(files, addNote, onStartFn, onCompleteFn);
+        readFiles(files, addNoteWithContent, onStartFn, onCompleteFn);
     };
+
+    exports.getSummaryNote = getSummaryNote;
+    exports.addEmptyNote = addEmptyNote;
+    exports.updateNote = updateNote;
 });

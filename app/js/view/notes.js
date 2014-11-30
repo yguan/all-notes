@@ -29,34 +29,6 @@ define(function (require, exports, module) {
             });
         }
 
-        function getSummaryNote(note) {
-            return {
-                id: note.id,
-                title: note.title,
-                dateModified: note.dateModified
-            };
-        }
-
-        function addNote() {
-            if ($scope.isAddingNote) {
-                return;
-            }
-            noteRepo.add(getDefaultNote(), {
-                success: function (note) {
-                    $scope.note = note;
-                    $scope.$apply();
-                    $scope.isAddingNote = false;
-                    focusOnTitle();
-                    noteSummaryRepo.add(getSummaryNote(note));
-                },
-                failure: function (error) {
-                    genericHandlers.error(error);
-                    $scope.isAddingNote = false;
-                }
-            });
-            $scope.isAddingNote = true;
-        }
-
         function isLetterKey(event) {
             var keyCode = event.keyCode;
             return keyCode >= 65 && keyCode <= 90 && !event.ctrlKey && !event.shiftKey;
@@ -76,23 +48,31 @@ define(function (require, exports, module) {
             }
         });
 
-        function getDefaultNote() {
-            return {
-                title: '',
-                content: '',
-                dateCreated: new Date()
-            };
-        }
-
         function updateNote(note) {
             $timeout(function () {
-                note.dateModified = new Date();
-                noteRepo.update(note, {succes: genericHandlers.noop, failure: genericHandlers.error});
-                noteSummaryRepo.update(getSummaryNote(note));
+                noteService.updateNote(note);
             }, 300);
         }
 
-        $scope.addNote = addNote;
+        $scope.addNote = function () {
+            if ($scope.isAddingNote) {
+                return;
+            }
+            noteService.addEmptyNote({
+                success: function (note) {
+                    $scope.note = note;
+                    $scope.$apply();
+                    $scope.isAddingNote = false;
+                    focusOnTitle();
+                },
+                failure: function (error) {
+                    genericHandlers.error(error);
+                    $scope.isAddingNote = false;
+                }
+            });
+
+            $scope.isAddingNote = true;
+        };
 
         $scope.updateTitle = function () {
             updateNote($scope.note);
