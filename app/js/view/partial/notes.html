@@ -15,7 +15,11 @@
                 multiple="true"
                 ng-hide="true">Upload text files as notes
         </button>
-        <span class="fa fa-download" ng-click="exportNotes()"></span>
+        <span class="fa fa-download"
+              data-unique="1"
+              data-placement="right"
+              bs-popover="'js/view/partial/export-notes.html'">
+        </span>
         <span class="sidebar-divider"></span>
         <span class="fa fa-list"
               data-unique="1"

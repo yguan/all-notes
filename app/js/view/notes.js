@@ -156,12 +156,13 @@ define(function (require, exports, module) {
             $scope.editNote();
         };
 
-        $scope.exportNotes = function () {
+        $scope.exportNotes = function (dismiss) {
             var loadingIndicator = getLoadingIndicatorHtml('Exporting notes as html files');
             bootbox.alert(loadingIndicator);
             noteService.exportNotes(function () {
                 bootbox.hideAll();
             });
+            dismiss();
         };
 
         function getUploadFilesMessage(fileCount) {

@@ -483,11 +483,8 @@ h4 {
 .note-title-list td:nth-child(2) {
   width: 180px;
 }
-.upload-text-files {
-  width: 160px;
-}
-.upload-text-files .throbber {
-  margin-top: 5px;
+.export-notes {
+  width: 170px;
 }
 .sidebar-divider {
   display: block;
