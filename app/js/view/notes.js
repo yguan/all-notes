@@ -130,11 +130,15 @@ define(function (require, exports, module) {
             }
         };
 
+        function addDateModifiedStr(note) {
+            note.dateModifiedStr = note.dateModified.toString('MMM d, y h:mm:ss a');
+        }
+
         $scope.displayNoteTitles = function () {
             noteSummaryRepo.getAll({
                 success: function (notes) {
                     $scope.noteTitles = notes;
-                    $scope.displayedNoteTitles = [].concat($scope.noteTitles);
+                    $scope.displayedNoteTitles = [].concat($scope.noteTitles).forEach(addDateModifiedStr);
                     $scope.$apply();
                 },
                 failure: genericHandlers.error
