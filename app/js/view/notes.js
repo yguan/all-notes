@@ -28,7 +28,7 @@ define(function (require, exports, module) {
         }
 
         function initEvent() {
-            document.addEventListener('keydown', function(event) {
+            document.addEventListener('keydown', function (event) {
                 if (event.keyCode === 17) {          // when ctrl is pressed
                     $noteContent.contentEditable = false; // disable contentEditable
                 }
@@ -38,7 +38,7 @@ define(function (require, exports, module) {
                 }
             }, false);
 
-            document.addEventListener('keyup', function(event) {
+            document.addEventListener('keyup', function (event) {
                 if (event.keyCode === 17) {          // when ctrl is released
                     $noteContent.contentEditable = true;  // reenable contentEditable
                 }
@@ -127,15 +127,6 @@ define(function (require, exports, module) {
                 updateNote($scope.note);
                 dismiss();
                 focusOnTitle();
-            },
-            isUploadingFiles: false,
-            uploadTextFilesAsNotes: function (files, dismiss) {
-                noteService.addTextFilesAsNotes(files, function () {
-                    $scope.popover.isUploadingFiles = true;
-                }, function () {
-                    $scope.popover.isUploadingFiles = false;
-                    dismiss();
-                });
             }
         };
 
@@ -171,6 +162,27 @@ define(function (require, exports, module) {
             noteService.exportNotes(function () {
                 bootbox.hideAll();
             });
+        };
+
+        function getUploadFilesMessage(fileCount) {
+            return 'Loading ' + fileCount + ' files';
+        }
+
+        $scope.uploadTextFilesAsNotes = function (files) {
+            noteService.addTextFilesAsNotes(files, {
+                onStart: function () {
+                    if (files.length > 0) {
+                        bootbox.alert(getLoadingIndicatorHtml(getUploadFilesMessage(files.length)));
+                    }
+                },
+                onComplete: function () {
+                    bootbox.hideAll();
+                }
+            });
+        };
+
+        $scope.uploadFilesAsNotes = function () {
+            $('.upload-file-select').click();
         };
 
         new AutoSuggest($noteContent);

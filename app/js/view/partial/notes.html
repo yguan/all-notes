@@ -7,13 +7,15 @@
               data-placement="right"
               bs-popover="'js/view/partial/clear-note.html'">
         </span>
-        <span class="fa fa-upload"
-              data-unique="1"
-              data-placement="right"
-              bs-popover="'js/view/partial/upload-text-files.html'">
-        </span>
-        <span class="fa fa-download" ng-click="exportNotes()">
-        </span>
+        <span class="fa fa-upload" ng-click="uploadFilesAsNotes()"></span>
+        <button class="upload-file-select"
+                ng-file-select=""
+                ng-model="noteFiles"
+                ng-file-change="uploadTextFilesAsNotes(noteFiles)"
+                multiple="true"
+                ng-hide="true">Upload text files as notes
+        </button>
+        <span class="fa fa-download" ng-click="exportNotes()"></span>
         <span class="sidebar-divider"></span>
         <span class="fa fa-list"
               data-unique="1"

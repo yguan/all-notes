@@ -107,8 +107,8 @@ define(function (require, exports, module) {
         });
     }
 
-    exports.addTextFilesAsNotes = function (files, onStartFn, onCompleteFn) {
-        readFiles(files, addNoteWithContent, onStartFn, onCompleteFn);
+    exports.addTextFilesAsNotes = function (files, op) {
+        readFiles(files, addNoteWithContent, op.onStart, op.onComplete);
     };
 
     exports.getSummaryNote = getSummaryNote;
