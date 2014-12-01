@@ -29,17 +29,17 @@ define(function (require, exports, module) {
 
         function initEvent() {
             document.addEventListener('keydown', function (event) {
-                if (event.keyCode === 17) {          // when ctrl is pressed
+                if (event.ctrlKey && event.shiftKey) {    // when ctrl and shift are pressed
                     $noteContent.contentEditable = false; // disable contentEditable
                 }
                 if (event.keyCode === 65 && event.ctrlKey) {
                     event.preventDefault();
-                    selectElementContents($noteContent);
+                    selectElementContents(event.target);
                 }
             }, false);
 
             document.addEventListener('keyup', function (event) {
-                if (event.keyCode === 17) {          // when ctrl is released
+                if (event.ctrlKey || event.shiftKey) {    // when ctrl or shift is released
                     $noteContent.contentEditable = true;  // reenable contentEditable
                 }
             }, false);
@@ -184,6 +184,10 @@ define(function (require, exports, module) {
 
         $scope.uploadFilesAsNotes = function () {
             $('.upload-file-select').click();
+        };
+
+        $scope.restoreEditable = function () {
+            $noteContent.contentEditable = true;
         };
 
         new AutoSuggest($noteContent);

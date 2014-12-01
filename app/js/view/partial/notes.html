@@ -42,6 +42,7 @@
              ng-model="note.content"
              strip-br="true"
              select-non-editable="true"
+             ng-click="restoreEditable()"
              ng-keyup="editNote($event)">
         </div>
     </div>
