@@ -23,6 +23,10 @@ define(function (require, exports, module) {
             sel.addRange(range);
         }
 
+        function getLoadingIndicatorHtml(message) {
+            return '<span>' + message + ' <\/span><span class="throbber"><\/span>';
+        }
+
         function initEvent() {
             document.addEventListener('keydown', function(event) {
                 if (event.keyCode === 17) {          // when ctrl is pressed
@@ -159,6 +163,14 @@ define(function (require, exports, module) {
 
         $scope.formatNote = function () {
             $scope.editNote();
+        };
+
+        $scope.exportNotes = function () {
+            var loadingIndicator = getLoadingIndicatorHtml('Exporting notes as html files');
+            bootbox.alert(loadingIndicator);
+            noteService.exportNotes(function () {
+                bootbox.hideAll();
+            });
         };
 
         new AutoSuggest($noteContent);

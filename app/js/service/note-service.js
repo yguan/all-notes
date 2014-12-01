@@ -6,7 +6,17 @@ define(function (require, exports, module) {
 
     var noteRepo = require('data/note-repository'),
         noteSummaryRepo = require('data/note-summary-repository'),
-        genericHandlers = require('view/generic-handlers');
+        genericHandlers = require('view/generic-handlers'),
+        fileSaver = require('lib/FileSaver'),
+        elementForStripHtml;
+
+    function stripHtml(html) {
+        if (!elementForStripHtml) {
+            elementForStripHtml = document.createElement("DIV");
+        }
+        elementForStripHtml.innerHTML = html;
+        return elementForStripHtml.textContent || elementForStripHtml.innerText || '';
+    }
 
     function getSummaryNote(note) {
         return {
@@ -83,6 +93,20 @@ define(function (require, exports, module) {
         readFile(0);
     }
 
+    function saveNoteAsFile(note) {
+        var blob = new Blob([note.content], {type: "text/plain;charset=utf-8"});
+        fileSaver.saveAs(blob, stripHtml(note.title) + '.html');
+    }
+
+    function exportNotes(callback) {
+        noteRepo.each(function (note) {
+            saveNoteAsFile(note);
+        }, {
+            success: callback,
+            failure: callback
+        });
+    }
+
     exports.addTextFilesAsNotes = function (files, onStartFn, onCompleteFn) {
         readFiles(files, addNoteWithContent, onStartFn, onCompleteFn);
     };
@@ -90,4 +114,5 @@ define(function (require, exports, module) {
     exports.getSummaryNote = getSummaryNote;
     exports.addEmptyNote = addEmptyNote;
     exports.updateNote = updateNote;
+    exports.exportNotes = exportNotes;
 });

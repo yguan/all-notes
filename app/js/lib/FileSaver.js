@@ -12,7 +12,7 @@
   plusplus: true */
 
 /*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
-
+(function () {
 var saveAs = saveAs
   || (navigator.msSaveBlob && navigator.msSaveBlob.bind(navigator))
   || (function(view) {
@@ -218,3 +218,4 @@ var saveAs = saveAs
 define(function (require, exports, module) {
     exports.saveAs = saveAs;
 });
+})();
