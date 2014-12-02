@@ -1,13 +1,13 @@
 <div class="main-view">
     <div class="sidebar-menu">
-        <span class="fa fa-cog" colorpicker class="span2" ng-model="bgColor"></span>
-        <span class="fa fa-plus" ng-click="addNote()"></span>
+        <span class="fa fa-cog" colorpicker class="span2" ng-model="bgColor" title="Change background color"></span>
+        <span class="fa fa-plus" ng-click="addNote()" title="Add a new note"></span>
         <span class="fa fa-times"
               data-unique="1"
               data-placement="right"
               bs-popover="'js/view/partial/clear-note.html'">
         </span>
-        <span class="fa fa-upload" ng-click="uploadFilesAsNotes()"></span>
+        <span class="fa fa-upload" ng-click="uploadFilesAsNotes()" title="Upload files as notes"></span>
         <button class="upload-file-select"
                 ng-file-select=""
                 ng-model="noteFiles"
