@@ -10,6 +10,7 @@ module.exports = {
                     '*.js',
                     'fonts/**',
                     'img/**',
+                    'js/lib/require.js',
                     'js/view/partial/*.html'
                 ],
                 dest: '<%= folder.distTemp %>/'
