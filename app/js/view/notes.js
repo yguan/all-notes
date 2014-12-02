@@ -45,15 +45,21 @@ define(function (require, exports, module) {
             }, false);
         }
 
+        function setCurrentNote(note) {
+            $scope.note = note;
+            $scope.$apply();
+        }
+
         function getNote() {
             noteRepo.getAll({
                 success: function (notes) {
-                    var note = notes[0];
                     if (notes.length > 0) {
-                        $scope.note = note;
-                        $scope.$apply();
+                        setCurrentNote(notes[0]);
                     } else {
-                        noteService.addEmptyNote();
+                        noteService.addEmptyNote({
+                            success: setCurrentNote,
+                            failure: genericHandlers.error
+                        });
                     }
                 },
                 failure: genericHandlers.error

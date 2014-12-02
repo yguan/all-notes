@@ -41,7 +41,7 @@ define(function (require, exports, module) {
         noteRepo.add(newNote, {
             success: function (note) {
                 noteSummaryRepo.add(getSummaryNote(note));
-                op.success();
+                op.success(note);
             },
             failure: op.failure
         });
