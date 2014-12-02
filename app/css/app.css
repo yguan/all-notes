@@ -347,8 +347,8 @@ h4 {
 .notes .content {
   background-color: white;
   padding: 0 5px;
+  overflow: auto;
   height: calc(100% - 80px);
-  overflow: hidden;
   outline: none;
   cursor: text;
   font-size: 18px;
