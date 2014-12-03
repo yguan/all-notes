@@ -6,7 +6,7 @@ This repository contains the source code of a Chrome App that allows you to mana
 
 It's hosted [here](http://yguan.github.io/repos/all-notes/).
 
-[![](http://yguan.github.io/img/projects/plain-note.png)](http://yguan.github.io/repos/all-notes/)
+[![](http://yguan.github.io/img/projects/plain-note.png)](http://yguan.github.io/repos/plain-note/)
 
 ## Development
 
