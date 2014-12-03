@@ -25,6 +25,7 @@
                     '<span class="fa fa-align-center" data-cmd="justifyCenter" title="Center Justify"></span>' +
                     '<span class="fa fa-align-right" data-cmd="justifyright" title="Right Justify"></span>' +
                     '<span class="fa fa-quote-left" data-cmd="formatBlock" data-arg="blockquote" title="Blockquote"></span>' +
+                    '<span class="fa fa-picture-o" data-cmd="insertImage" title="Insert Image"></span>' +
                     '<span class="fa fa-link" data-cmd="insertLink" title="Insert Link"></span>' +
                     '<span class="fa fa-eraser" data-cmd="removeFormat" title="Clear Format"></span>' +
                     '<span class="fa fa-minus" data-cmd="insertHorizontalRule" title="Horizontal Rule"></span>' +
@@ -55,22 +56,44 @@
                                 }
                             });
                         },
-                        insertLink: function () {
+                        showInsertHtmlDialog: function (options) {
                             var me = this,
-                                linkText =  document.getSelection(),
+                                selectedText =  document.getSelection(),
                                 link,
                                 sel = window.getSelection(),
                                 range = sel.getRangeAt(0).cloneRange();
 
-                            bootbox.prompt('Enter a URL', function(linkURL) {
-                                if (linkURL !== null) {
+                            bootbox.prompt(options.label, function(htmlContent) {
+                                if (htmlContent !== null) {
                                     sel.removeAllRanges();
                                     sel.addRange(range);
-                                    link = '<a href="' + linkURL + '" target="_blank">' + linkText + '</a>';
-                                    me.execDocumentCmd('insertHTML', link);
+                                    options.insertFn(selectedText, htmlContent);
                                 } else {
                                     sel.removeAllRanges();
                                     sel.addRange(range);
+                                }
+                            });
+                        },
+
+                        insertLink: function () {
+                            var me = this;
+
+                            me.showInsertHtmlDialog({
+                                label: 'Enter a URL',
+                                insertFn: function (selectedText, linkURL) {
+                                    var link = '<a href="' + linkURL + '" target="_blank">' + selectedText + '</a>';
+                                    me.execDocumentCmd('insertHTML', link);
+                                }
+                            });
+                        },
+
+                        insertImage: function () {
+                            var me = this;
+
+                            me.showInsertHtmlDialog({
+                                label: 'Enter an image URL',
+                                insertFn: function (selectedText, linkURL) {
+                                    me.execDocumentCmd('insertImage', linkURL);
                                 }
                             });
                         },
@@ -82,6 +105,8 @@
 
                             if (command === 'insertLink') {
                                 scope.insertLink();
+                            } else if (command === 'insertImage') {
+                                scope.insertImage();
                             } else {
                                 scope.execDocumentCmd(command, agrumentVal);
                             }
