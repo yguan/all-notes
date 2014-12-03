@@ -47,8 +47,11 @@ define(function (require, exports, module) {
         });
     }
 
-    function addNoteWithContent(title, content) {
-        addNote(createNote(title, content));
+    function addFileAsNote(file, content) {
+        if (file.type === 'text/plain') {
+            content = content.replace(/(?:\r\n|\r|\n)/g, '<br />');
+        }
+        addNote(createNote(file.name, content));
     }
 
     function addEmptyNote(op) {
@@ -84,7 +87,7 @@ define(function (require, exports, module) {
             }
 
             reader.onload = function (e) {
-                processContentFn(files[index].name, e.target.result);
+                processContentFn(files[index], e.target.result);
                 readFile(index + 1)
             };
             reader.readAsText(files[index]);
@@ -108,7 +111,7 @@ define(function (require, exports, module) {
     }
 
     exports.addTextFilesAsNotes = function (files, op) {
-        readFiles(files, addNoteWithContent, op.onStart, op.onComplete);
+        readFiles(files, addFileAsNote, op.onStart, op.onComplete);
     };
 
     exports.getSummaryNote = getSummaryNote;
