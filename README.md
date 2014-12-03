@@ -1,6 +1,6 @@
 # Plain Note Chrome App
 
-This repository contains the source code of a Chrome App that allows you to manage your notes. You can download the [Chrome App](https://chrome.google.com/webstore/detail/flex-note/acndffknklaklnnpjmdbfknnohmikcje) from the Chrome Web Store.
+This repository contains the source code of a Chrome App that allows you to manage your notes. You can download the [Chrome App](https://chrome.google.com/webstore/detail/plain-note/gilbbjgpckfpofcifagcfmcnohlkmoak) from the Chrome Web Store.
 
 ## Demo
 
