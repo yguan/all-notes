@@ -1,4 +1,4 @@
-# All Notes Chrome App
+# Plain Note Chrome App
 
 This repository contains the source code of a Chrome App that allows you to manage your notes. You can download the [Chrome App](https://chrome.google.com/webstore/detail/flex-note/acndffknklaklnnpjmdbfknnohmikcje) from the Chrome Web Store.
 
@@ -6,7 +6,7 @@ This repository contains the source code of a Chrome App that allows you to mana
 
 It's hosted [here](http://yguan.github.io/repos/all-notes/).
 
-[![](http://yguan.github.io/img/projects/flexnote.png)](http://yguan.github.io/repos/all-notes/)
+[![](http://yguan.github.io/img/projects/plain-note.png)](http://yguan.github.io/repos/all-notes/)
 
 ## Development
 
