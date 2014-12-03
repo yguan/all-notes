@@ -53,8 +53,10 @@ define(function (require, exports, module) {
         function getNote() {
             noteRepo.getAll({
                 success: function (notes) {
+                    var lastModifiedNote;
                     if (notes.length > 0) {
-                        setCurrentNote(notes[0]);
+                        lastModifiedNote = _.max(notes, function(note){ return note.dateModified; });
+                        setCurrentNote(lastModifiedNote);
                     } else {
                         noteService.addEmptyNote({
                             success: setCurrentNote,
