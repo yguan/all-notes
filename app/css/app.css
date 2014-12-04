@@ -306,6 +306,7 @@ h4 {
   margin: 0;
   padding: 5px 0;
   width: 50px;
+  height: calc(100% - 25px);
   text-align: center;
   background-color: white;
   -webkit-border-radius: 5px;
@@ -416,7 +417,7 @@ h4 {
 }
 .note-title-list {
   height: 450px;
-  width: 800px;
+  width: 900px;
 }
 .note-title-list .fa {
   color: #428bca;
@@ -480,7 +481,7 @@ h4 {
 }
 .note-title-list th:nth-child(1),
 .note-title-list td:nth-child(1) {
-  width: 620px;
+  width: 720px;
 }
 .note-title-list th:nth-child(2),
 .note-title-list td:nth-child(2) {
@@ -491,7 +492,7 @@ h4 {
 }
 .sidebar-divider {
   display: block;
-  height: 160px;
+  height: calc(100% - 500px);
 }
 .st-sort-ascent:after {
   content: "\f0de";
