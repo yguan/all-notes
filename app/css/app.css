@@ -349,7 +349,7 @@ h4 {
   background-color: white;
   padding: 0 5px;
   overflow: auto;
-  height: calc(100% - 80px);
+  height: calc(100% - 125px);
   outline: none;
   cursor: text;
   font-size: 18px;

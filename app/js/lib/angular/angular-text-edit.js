@@ -35,15 +35,12 @@
                     '<span class="fa fa-minus" data-cmd="insertHorizontalRule" title="Horizontal Rule"></span>' +
                     '<span class="fa fa-undo" data-cmd="undo" title="Undo"></span>' +
                     '<span class="fa fa-repeat" data-cmd="redo" title="Redo"></span>' +
-                    '<span class="fa fa-search" data-cmd="search" title="Find Text"></span>' +
                     '</div>',
                 controller: function () {
                     return {
                         init: function ($element, $scope) {
                             var me = this,
                                 afterTextEditHandler = $scope.afterTextEditHandler;
-
-                            me.searchHandler = $scope.searchHandler;
 
                             $element.find('.text-color-picker').colorpicker({
                                 size: 20,
@@ -114,8 +111,6 @@
                                 scope.insertLink();
                             } else if (command === 'insertImage') {
                                 scope.insertImage();
-                            } else if (command === 'search') {
-                                scope.searchHandler();
                             }else {
                                 scope.execDocumentCmd(command, agrumentVal);
                             }
