@@ -2,7 +2,7 @@
     "name": "Plain Note",
     "short_name": "Plain Note",
     "description": "A simple note taking app that supports rich-text editing",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "manifest_version": 2,
     "permissions": [
         "storage"
