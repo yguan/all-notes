@@ -1219,3 +1219,18 @@ h4 {
 .ng-hide {
   display: none !important;
 }
+.j-highlight {
+  background-color: yellow;
+}
+.search-text-pane {
+  margin-bottom: 10px;
+}
+.search-text-pane .form-control {
+  display: inline-block;
+}
+.search-text-pane input {
+  width: 30% !important;
+}
+.search-text-pane .match-count {
+  width: 90px;
+}

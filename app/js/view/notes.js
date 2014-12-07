@@ -8,13 +8,13 @@ define(function (require, exports, module) {
         noteSummaryRepo = require('data/note-summary-repository'),
         genericHandlers = require('view/generic-handlers'),
         theme = require('view/theme'),
-        noteService = require('service/note-service'),
-        textSearch = require('lib/text-search');
+        noteService = require('service/note-service');
 
     exports.name = 'NotesCtrl';
 
     exports.controller = function ($scope, $location, $document, $timeout, $modal, $sce) {
-        var $noteContent = document.querySelector('.notes .content');
+        var $noteContent = $('.notes .content'),
+            $findText = $('.find-text');
 
         function selectElementContents(el) {
             var range = document.createRange();
@@ -33,9 +33,13 @@ define(function (require, exports, module) {
                 if (event.ctrlKey && event.shiftKey) {    // when ctrl and shift are pressed
                     $noteContent.contentEditable = false; // disable contentEditable
                 }
-                if (event.keyCode === 65 && event.ctrlKey) {
+                if (event.keyCode === 65 && event.ctrlKey) { // ctrl + a
                     event.preventDefault();
                     selectElementContents(event.target);
+                }
+                if (event.keyCode === 70 && event.ctrlKey) { // ctrl + f
+                    event.preventDefault();
+                    $findText.focus();
                 }
             }, false);
 
@@ -210,11 +214,17 @@ define(function (require, exports, module) {
         };
 
         $scope.runSearch = function () {
-            textSearch.removeHighlight();
-            textSearch.highlight($scope.searchText);
+            $noteContent.removeHighlight().highlight($scope.searchText);
+            $scope.searchTextMatchCount = '( ' + $noteContent.find('.j-highlight').length + ' )';
         };
 
-        new AutoSuggest($noteContent);
+        $scope.replaceText = function () {
+            $scope.runSearch();
+            $noteContent.replaceHighlightedText($scope.textReplacement);
+            updateNote($scope.note);
+        };
+
+        new AutoSuggest($noteContent[0]);
         focusOnTitle();
         initEvent();
     };

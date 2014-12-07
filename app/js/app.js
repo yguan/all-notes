@@ -34,7 +34,8 @@ function () {
         'lib/angular/smart-table',
         'lib/angular/styling',
         'lib/angular/bootstrap-colorpicker',
-        'lib/angular/jquery.colorpicker'
+        'lib/angular/jquery.colorpicker',
+        'lib/jquery.highlight-4'
     ],
     function () {
         require(['data/app-data-loader', 'view/all-views'], function (loader, views) {
