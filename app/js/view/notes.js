@@ -224,6 +224,11 @@ define(function (require, exports, module) {
             updateNote($scope.note);
         };
 
+        $scope.clearHighlight = function () {
+            $noteContent.removeHighlight();
+            updateNote($scope.note);
+        };
+
         new AutoSuggest($noteContent[0]);
         focusOnTitle();
         initEvent();
