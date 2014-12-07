@@ -8,7 +8,8 @@ define(function (require, exports, module) {
         noteSummaryRepo = require('data/note-summary-repository'),
         genericHandlers = require('view/generic-handlers'),
         theme = require('view/theme'),
-        noteService = require('service/note-service');
+        noteService = require('service/note-service'),
+        textSearch = require('lib/text-search');
 
     exports.name = 'NotesCtrl';
 
@@ -55,7 +56,9 @@ define(function (require, exports, module) {
                 success: function (notes) {
                     var lastModifiedNote;
                     if (notes.length > 0) {
-                        lastModifiedNote = _.max(notes, function(note){ return note.dateModified; });
+                        lastModifiedNote = _.max(notes, function (note) {
+                            return note.dateModified;
+                        });
                         setCurrentNote(lastModifiedNote);
                     } else {
                         noteService.addEmptyNote({
@@ -165,7 +168,7 @@ define(function (require, exports, module) {
         };
 
         $scope.formatNote = function () {
-            $scope.editNote();
+            updateNote($scope.note);
         };
 
         $scope.exportNotes = function (dismiss) {
@@ -200,6 +203,15 @@ define(function (require, exports, module) {
 
         $scope.restoreEditable = function () {
             $noteContent.contentEditable = true;
+        };
+
+        $scope.handleSearch = function () {
+            $('.editor-toolbar .fa-search').popover('show');
+        };
+
+        $scope.runSearch = function () {
+            textSearch.removeHighlight();
+            textSearch.highlight($scope.searchText);
         };
 
         new AutoSuggest($noteContent);

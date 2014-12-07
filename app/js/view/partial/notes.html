@@ -29,7 +29,27 @@
         </span>
     </div>
     <div class="notes">
-        <textedit afterTextEditHandler="formatNote()"></textedit>
+        <div class="search-text-panel">
+            <div class="title"
+                 contenteditable="true"
+                 ng-model="searchText"
+                 placeholder="Find text ...">
+            </div>
+            <!--<input class="form-control"-->
+                   <!--type="text"-->
+                   <!--ng-model="searchText"-->
+                   <!--ng-change="runSearch()"-->
+                   <!--ng-model-options="{ debounce: 200 }"/>-->
+            <span class="fa fa-arrow-up" title="Search up"></span>
+            <span class="fa fa-arrow-down" title="Search down"></span>
+            <label>{{strMatchCount}}</label>
+            <button class="btn btn-primary" ng-click="runSearch()">Highlight</button>
+            <button class="btn btn-primary" ng-click="highlightText()">Remove highlight</button>
+        </div>
+        <textedit
+                after-text-edit-handler="formatNote()"
+                search-handler="handleSearch()">
+        </textedit>
         <div class="title"
              contenteditable="true"
              ng-model="note.title"
